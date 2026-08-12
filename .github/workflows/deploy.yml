@@ -1,0 +1,39 @@
+name: SPM Theme Publisher
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*/manifest.json' # Only triggers the pipeline if a manifest is changed
+
+jobs:
+  publish-to-edge:
+    runs-on: ubuntu-latest
+    environment: SPM # Pulls the exact secrets from your environment setup!
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Required to hunt down modified files
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 🔍 Detect Changed Manifests
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |
+            **/*/manifest.json
+
+      - name: 🚀 Sign and Publish to R2
+        if: steps.changed-files.outputs.any_changed == 'true'
+        env:
+          SPM_DEV_SECRET: ${{ secrets.SPM_DEV_SECRET }}
+          API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: node .github/scripts/publish.js
