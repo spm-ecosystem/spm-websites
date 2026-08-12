@@ -21,9 +21,21 @@ async function publish() {
             process.exit(1); // Fails the pipeline if the JSON is broken
         }
 
+        // Try reading content.css sibling file
+        let cssContent = "";
+        const cssFile = file.replace('manifest.json', 'content.css');
+        if (fs.existsSync(cssFile)) {
+            cssContent = fs.readFileSync(cssFile, 'utf8');
+        }
+
+        const requestBody = JSON.stringify({
+            manifest,
+            css: cssContent
+        });
+
         // 1. Generate the HMAC SHA-256 (The integrity seal)
         const hmac = crypto.createHmac('sha256', secret);
-        hmac.update(rawPayload);
+        hmac.update(requestBody);
         const signature = hmac.digest('hex');
 
         // 2. Clean up and build the route variables
@@ -41,7 +53,7 @@ async function publish() {
                 'Authorization': `Bearer ${authToken}`,
                 'X-SPM-Integrity': signature
             },
-            body: rawPayload
+            body: requestBody
         });
 
         if (!response.ok) {
