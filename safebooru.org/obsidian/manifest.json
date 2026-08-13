@@ -1,6 +1,5 @@
 {
   "targetUrl": "*://safebooru.org/*",
-  "version": "1.14.0",
   "minEngineVersion": "1.0.0",
   "theme": {
     "label": "Obsidian",
