@@ -28,6 +28,48 @@ async function publish() {
             cssContent = fs.readFileSync(cssFile, 'utf8');
         }
 
+        const domain = manifest.targetUrl.replace("*://", "").replace("/*", "");
+        const themeName = manifest.theme.label.toLowerCase().replace(/\s+/g, '-');
+
+        // Resolve version from Edge registry
+        console.log(`🔍 Resolving latest version from edge for ${domain}/${themeName}...`);
+        let resolvedVersion = "1.0.0";
+        try {
+            const listResponse = await fetch(`https://spm.hexacloud.net.br/spm/v1/api/themes/${domain}`);
+            if (listResponse.ok) {
+                const listData = await listResponse.json();
+                const prefix = `themes/${domain}/${themeName}/`;
+                const versions = new Set();
+                for (const item of listData.themes || []) {
+                    if (item.key.startsWith(prefix)) {
+                        const parts = item.key.substring(prefix.length).split("/");
+                        if (parts[0] && /^\d+\.\d+\.\d+$/.test(parts[0])) {
+                            versions.add(parts[0]);
+                        }
+                    }
+                }
+                if (versions.size > 0) {
+                    const sorted = Array.from(versions).sort((a, b) => {
+                        const pa = a.split(".").map(Number);
+                        const pb = b.split(".").map(Number);
+                        for (let i = 0; i < 3; i++) {
+                            if (pa[i] !== pb[i]) return pa[i] - pb[i];
+                        }
+                        return 0;
+                    });
+                    const latest = sorted[sorted.length - 1];
+                    const parts = latest.split(".").map(Number);
+                    parts[2] += 1;
+                    resolvedVersion = parts.join(".");
+                }
+            }
+        } catch (err) {
+            console.warn(`⚠️ Warning: Failed to query edge registry, defaulting version to 1.0.0:`, err.message);
+        }
+
+        console.log(`🏷️ Next version resolved: ${resolvedVersion}`);
+        manifest.version = resolvedVersion;
+
         const requestBody = JSON.stringify({
             manifest,
             css: cssContent
@@ -38,10 +80,7 @@ async function publish() {
         hmac.update(requestBody);
         const signature = hmac.digest('hex');
 
-        // 2. Clean up and build the route variables
-        const domain = manifest.targetUrl.replace("*://", "").replace("/*", "");
-        const themeName = manifest.theme.label.toLowerCase().replace(/\s+/g, '-');
-        const url = `https://spm.hexacloud.net.br/spm/v1/api/publish/${domain}/${themeName}`;
+        const url = `https://spm.hexacloud.net.br/spm/v1/api/publish/${domain}/${themeName}/${resolvedVersion}`;
 
         console.log(`🚀 Sending to Cloudflare Edge...`);
 
