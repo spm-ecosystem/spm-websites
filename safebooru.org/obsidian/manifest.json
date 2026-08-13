@@ -4,7 +4,7 @@
   "theme": {
     "label": "Obsidian",
     "author": "watashi-00",
-    "description": "Auto-versioning Obsidian dark theme",
+    "description": "Auto-versioning Obsidian dark theme on pipeline",
     "cssVariables": {
       "--spm-bg-primary": "#000000",
       "--spm-bg-secondary": "#111111",
