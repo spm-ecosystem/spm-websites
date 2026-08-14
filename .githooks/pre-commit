@@ -36,9 +36,9 @@ for file in $staged_vnr; do
     
     # Check if domain directory is already compiled in this run
     if [[ ! " ${compiled_folders[@]} " =~ " ${domain_dir} " ]]; then
-        if [ -d "$domain_dir/vnr_project" ]; then
+        if [ -d "$domain_dir" ]; then
             echo "🔨 Compiling theme layout for $domain_dir..."
-            if $SPM_BIN compile "$domain_dir/vnr_project" -o "$domain_dir/manifest.json"; then
+            if $SPM_BIN compile "$domain_dir" -o "$domain_dir/manifest.json"; then
                 git add "$domain_dir/manifest.json"
                 compiled_folders+=("$domain_dir")
             else
