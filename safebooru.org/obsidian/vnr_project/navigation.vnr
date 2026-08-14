@@ -1,0 +1,46 @@
+selector "#header, #navbar, header, .navbar, #topbar" -> UiNavHeader {
+    action: "replace";
+    className: "safebooru-site-nav";
+    logoHref: "https://safebooru.org/";
+    
+    bind siteName: "#site-title a | text";
+    bind logoUrl: "#site-title img | attr:src";
+
+    primaryLinks: R"([
+      { "label": "My Account", "url": "https://safebooru.org/index.php?page=account&s=home" },
+      { "label": "Posts", "url": "https://safebooru.org/index.php?page=post&s=list&tags=all" },
+      { "label": "Comments", "url": "https://safebooru.org/index.php?page=comment&s=list" },
+      { "label": "Wiki", "url": "https://safebooru.org/index.php?page=wiki&s=list" },
+      { "label": "Aliases", "url": "https://safebooru.org/index.php?page=alias&s=list" },
+      { "label": "Artists", "url": "https://safebooru.org/index.php?page=artist&s=list" },
+      { "label": "Tags", "url": "https://safebooru.org/index.php?page=tags&s=list" },
+      { "label": "Pools", "url": "https://safebooru.org/index.php?page=pool&s=list" },
+      { "label": "Forum", "url": "https://safebooru.org/index.php?page=forum&s=list" },
+      { "label": "Stats", "url": "https://safebooru.org/index.php?page=stats" },
+      { "label": "Help", "url": "https://safebooru.org/index.php?page=help" }
+    ])";
+
+    secondaryLinks: R"([
+      { "label": "Video", "url": "https://safebooru.org/index.php?page=post&s=list&tags=video" },
+      { "label": "Upload", "url": "https://safebooru.org/index.php?page=post&s=add" },
+      { "label": "My Favorites", "url": "https://safebooru.org/index.php?page=favorites&s=view" },
+      { "label": "Random", "url": "https://safebooru.org/index.php?page=post&s=random" },
+      { "label": "Contact Us", "url": "https://safebooru.org/index.php?page=contact" },
+      { "label": "DMCA", "url": "https://safebooru.org/index.php?page=dmca" },
+      { "label": "About", "url": "https://safebooru.org/index.php?page=about" },
+      { "label": "Help", "url": "https://safebooru.org/index.php?page=help&topic=post" },
+      { "label": "TOS", "url": "https://safebooru.org/index.php?page=tos" }
+    ])";
+}
+
+selector "#subnavbar" -> UiNavHeader {
+    action: "hide";
+}
+
+selector "#tag-sidebar form, .tag-search form, .sidebar form" -> UiSearchBar {
+    action: "replace";
+    placeholder: "Search tags…";
+    submitUrl: "https://safebooru.org/index.php?page=post&s=list";
+    queryParamName: "tags";
+    bind defaultValue: "input[name='tags'] | attr:value";
+}

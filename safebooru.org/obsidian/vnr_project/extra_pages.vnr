@@ -1,0 +1,89 @@
+class ExtraPageLink {
+    bind label: "self | text";
+    bind url: "self | attr:href";
+}
+
+reconstruct "#post-view" -> UiSplitLayout {
+    urlPattern: "page=post&s=view";
+    sidebarWidth: "300px";
+    sidebarSide: "left";
+    imageFit: "contain";
+    height: "calc(100vh - 78px)";
+    showSearch: "true";
+    searchPlaceholder: "Search tags...";
+    searchSubmitUrl: "https://safebooru.org/index.php?page=post&s=list";
+    searchParamName: "tags";
+    
+    tagGroups: R"([
+      { "title": "Artists", "typeKey": "artist" },
+      { "title": "Copyrights", "typeKey": "copyright" },
+      { "title": "Characters", "typeKey": "character" },
+      { "title": "General", "typeKey": "general" },
+      { "title": "Meta", "typeKey": "metadata" }
+    ])";
+
+    bind statisticsHtml: "#stats ul | html";
+
+    child imageSlot {
+        selector: "#image";
+        bind src: "self | attr:src";
+        bind alt: "self | attr:alt";
+    }
+
+    child tags {
+        selector: "#tag-sidebar li[class*='tag-type-']";
+        scope: "document";
+        bind name: "a:last-of-type | text";
+        bind count: "span.tag-count | text";
+        bind type: "self | attr:class";
+        bind url: "a:last-of-type | attr:href";
+    }
+
+    child buttons {
+        selector: ".link-list a";
+        scope: "document";
+        bind label: "self | text";
+        bind url: "self | hrefOrOnclick";
+        bind targetSelector: "self | selector";
+    }
+}
+
+reconstruct "#content:has(div.toptencont)" -> UiStatsDashboard {
+    urlPattern: "page=stats";
+    pageTitle: "Booru Statistics Dashboard";
+    height: "calc(100vh - 78px)";
+
+    bind dateRangeText: "h2 | text";
+
+    child navLinks extends ExtraPageLink {
+        selector: "#content > a";
+    }
+
+    child sections {
+        selector: "div.toptencont";
+        bind title: "thead tr th | text";
+
+        child items {
+            selector: "tbody tr";
+            bind place: "td:nth-child(1) | text";
+            bind amount: "td:nth-child(2) | text";
+            bind name: "td:nth-child(3) a | text";
+            bind profileUrl: "td:nth-child(3) a | attr:href";
+        }
+    }
+}
+
+reconstruct "#user-index" -> UiDashboardPage {
+    urlPattern: "page=account&s=home";
+    pageTitle: "My Account Home";
+    subTitle: "Manage your settings, options, and sign up or login status.";
+    height: "calc(100vh - 78px)";
+
+    child cards {
+        selector: "#user-index h4";
+        bind title: "self | text";
+        bind url: "a | attr:href";
+        bind urlLabel: "a | text";
+        bind description: "self | nextSiblingText";
+    }
+}

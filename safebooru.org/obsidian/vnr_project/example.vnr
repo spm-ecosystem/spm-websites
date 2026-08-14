@@ -1,0 +1,18 @@
+// 1. Declarando uma classe de mapeamento reutilizável
+class TagBadge {
+    bind name: "a:nth-child(2) | text";
+    bind count: "span.tag-count | text";
+    bind url: "a:nth-child(2) | attr:href";
+}
+
+// 2. Interceptando e reconstruindo o layout de uma seção do DOM
+reconstruct "#gallery" -> UiGridPage {
+    urlPattern: R"(example-site\.com\/gallery(?:\/index\.html)?$)";
+
+    // Reutilizando mapeamentos via herança de classe
+    child items extends class.TagBadge {
+        selector: "#gallery-view .item";
+        scope: container;
+        bind category: "self | attr:class"; // Extensão local
+    }
+}

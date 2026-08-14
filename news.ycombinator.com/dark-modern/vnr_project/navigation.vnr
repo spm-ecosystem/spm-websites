@@ -1,0 +1,17 @@
+reconstruct "table#hnmain > tbody > tr:first-child" -> UiNavHeader {
+  siteName: "Hacker News";
+  logoUrl: "https://news.ycombinator.com/y18.svg";
+  searchPlaceholder: "Search posts, comments, authors...";
+
+  bind linkNew: "span.pagetop a[href='newest'] | text";
+  bind linkPast: "span.pagetop a[href='front'] | text";
+  bind linkComments: "span.pagetop a[href='newcomments'] | text";
+  bind linkAsk: "span.pagetop a[href='ask'] | text";
+  bind linkShow: "span.pagetop a[href='show'] | text";
+  bind linkJobs: "span.pagetop a[href='jobs'] | text";
+  bind linkSubmit: "span.pagetop a[href='submit'] | text";
+}
+
+selector "#hnmain > tbody > tr:nth-child(2)" {
+  action: hide;
+}

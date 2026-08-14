@@ -1,0 +1,72 @@
+reconstruct "#static-index" -> UiHeroLanding {
+    urlPattern: R"(safebooru\.org\/?(?:index\.php)?$)";
+    tagline: "Anime picture search engine";
+    subtext: "Browse millions of safe anime illustrations, updated hourly.";
+    ctaLabel: "Browse Gallery";
+    ctaUrl: "https://safebooru.org/index.php?page=post&s=list&tags=all";
+    searchPlaceholder: "Search tags... (e.g. blue_hair 1girl)";
+    searchSubmitUrl: "https://safebooru.org/index.php?page=post&s=list";
+    searchParamName: "tags";
+
+    bind siteName: "img[alt='Safebooru'] | attr:alt";
+    bind logoUrl: "img[alt='Safebooru'] | attr:src";
+
+    child primaryLinks extends StandardLink {
+        selector: "#links a";
+    }
+}
+
+reconstruct "#post-list" -> UiModernGridPage {
+    urlPattern: "page=post&s=list";
+    infiniteScroll: R"({
+      "nextPageSelector": "#paginator .pagination a",
+      "nextPageText": ">"
+    })";
+    
+    className: "safebooru-gallery";
+    pageTitle: "Gallery";
+    height: "calc(100vh - 78px)";
+    sidebarWidth: "260px";
+    hideSidebarOnMobile: true;
+    showSearch: true;
+    searchPlaceholder: "Search tags…";
+    searchSubmitUrl: "https://safebooru.org/index.php?page=post&s=list";
+    searchParamName: "tags";
+
+    mobileBreakpoint: 720;
+    mobileColumns: 2;
+    mobileGap: "8px";
+    mobilePadding: "8px";
+    mobileCardAspectRatio: "1 / 1.28";
+    mobileHeaderSticky: true;
+    mobileShowHeader: true;
+    mobileShowPagination: true;
+
+    tagGroups: R"([
+      { "title": "Artists", "typeKey": "artist" },
+      { "title": "Copyrights", "typeKey": "copyright" },
+      { "title": "Characters", "typeKey": "character" },
+      { "title": "General", "typeKey": "general" },
+      { "title": "Meta", "typeKey": "metadata" }
+    ])";
+
+    bind searchDefaultValue: ".sidebar form input[name='tags'] | attr:value";
+
+    child items {
+        selector: "#post-list .thumb";
+        bind imageUrl: "img | attr:src";
+        bind linkUrl: "a | attr:href";
+        bind title: "img | attr:title";
+        bind id: "self | attr:id";
+    }
+
+    child pageLinks extends StandardLink {
+        selector: "#paginator .pagination a";
+    }
+
+    child tags extends TagItem {
+        selector: "#tag-sidebar li";
+        bind addUrl: "a:nth-of-type(2) | attr:href";
+        bind removeUrl: "a:nth-of-type(3) | attr:href";
+    }
+}

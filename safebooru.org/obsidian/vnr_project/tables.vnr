@@ -1,0 +1,214 @@
+class TableRowBase {
+    bind label: "self | text";
+    bind url: "self | attr:href";
+    
+}
+
+reconstruct "#content:has(#comment-list)" -> UiCommentListPage {
+    urlPattern: "page=comment&s=list";
+    pageTitle: "Comments";
+    height: "calc(100vh - 78px)";
+    preserve {
+        sidebarSlot: ".sidebar";
+    }
+    
+    child threads {
+        selector: "#comment-list > div.post";
+        bind id: "self | attr:id";
+        bind thumbnailUrl: ".col1 img | attr:src";
+        bind postUrl: ".col1 a | attr:href";
+        bind postDate: ".col2 span.info:nth-child(1) | text";
+        bind postUser: ".col2 span.info:nth-child(2) | text";
+        bind postRating: ".col2 span.info:nth-child(3) | text";
+        bind postScore: ".col2 span.info:nth-child(4) | text";
+        
+        child tags {
+            selector: ".col2 .tags span";
+            bind label: "a | text";
+            bind url: "a | attr:href";
+            bind type: "self | attr:class";
+        }
+
+        child comments {
+            selector: ".response-list div.post";
+            bind author: ".author h6 a | text";
+            bind authorUrl: ".author h6 a | attr:href";
+            bind date: ".author span.date | text";
+            bind body: ".content .body | text";
+        }
+    }
+
+    child pageLinks extends DocumentLink {
+        selector: "#paginator .pagination a";
+    }
+}
+
+reconstruct "#content:has(table.highlightable)" -> UiTableListPage {
+    urlPattern: "page=wiki&s=list";
+    pageTitle: "Wiki Pages";
+    height: "calc(100vh - 78px)";
+    preserve {
+        sidebarSlot: ".sidebar";
+    }
+
+    child tableRows {
+        selector: "table.highlightable tr";
+        bind iconUrl: "td:nth-child(1) img | attr:src";
+        bind iconLink: "td:nth-child(1) a | attr:href";
+        bind title: "td:nth-child(2) a | text";
+        bind titleUrl: "td:nth-child(2) a | attr:href";
+        bind lastUpdatedText: "td:nth-child(2) span | text";
+        bind lastUpdatedUser: "td:nth-child(2) span a | text";
+        bind lastUpdatedUserUrl: "td:nth-child(2) span a | attr:href";
+        bind version: "td:nth-child(3) h3 | text";
+    }
+
+    child pageLinks extends DocumentLink {
+        selector: "#paginator .pagination a";
+    }
+}
+
+reconstruct "#content:has(table.highlightable)" -> UiTableListPage {
+    urlPattern: "page=alias&s=list";
+    infiniteScroll: R"({
+      "nextPageSelector": "#paginator .pagination a",
+      "nextPageText": ">"
+    })";
+    
+    pageTitle: "Tag Aliases";
+    height: "calc(100vh - 78px)";
+    columns: R"([
+      { "key": "pending", "header": "Pending", "width": "60px", "type": "checkbox" },
+      { "key": "aliasName", "header": "Alias", "type": "link", "urlKey": "aliasUrl" },
+      { "key": "toName", "header": "To Tag", "type": "link", "urlKey": "toUrl" },
+      { "key": "reason", "header": "Reason / Discussion", "type": "text" }
+    ])";
+
+    child tableRows {
+        selector: "#aliases table.highlightable tr:not(.tableheader)";
+        bind pending: "td:nth-child(1) input[type='checkbox'] | attr:class";
+        bind aliasName: "td:nth-child(2) a | text";
+        bind aliasUrl: "td:nth-child(2) a | attr:href";
+        bind toName: "td:nth-child(3) a | text";
+        bind toUrl: "td:nth-child(3) a | attr:href";
+        bind reason: "td:nth-child(4) | text";
+    }
+}
+
+reconstruct "#content:has(table.highlightable)" -> UiTableListPage {
+    urlPattern: "page=artist&s=list";
+    infiniteScroll: R"({
+      "nextPageSelector": "#paginator .pagination a",
+      "nextPageText": ">"
+    })";
+
+    pageTitle: "Artists";
+    height: "calc(100vh - 78px)";
+    columns: R"([
+      { "key": "actions", "header": "Actions", "width": "100px", "type": "html" },
+      { "key": "name", "header": "Artist Name", "type": "link", "urlKey": "nameUrl" },
+      { "key": "updatedBy", "header": "Updated By", "type": "text" }
+    ])";
+
+    child tableRows {
+        selector: "table.highlightable tr:not(.tableheader)";
+        bind actions: "td:nth-child(1) | html";
+        bind name: "td:nth-child(2) a | text";
+        bind nameUrl: "td:nth-child(2) a | attr:href";
+        bind updatedBy: "td:nth-child(3) | text";
+    }
+
+    child pageLinks extends DocumentLink {
+        selector: "#paginator .pagination a";
+    }
+}
+
+reconstruct "#content:has(table.highlightable)" -> UiTableListPage {
+    urlPattern: "page=tags&s=list";
+    infiniteScroll: R"({
+      "nextPageSelector": "#paginator .pagination a",
+      "nextPageText": ">"
+    })";
+
+    pageTitle: "Tags Directory";
+    height: "calc(100vh - 78px)";
+    columns: R"([
+      { "key": "posts", "header": "Posts", "width": "120px", "type": "text" },
+      { "key": "tag", "header": "Tag", "type": "badge", "urlKey": "tagUrl" },
+      { "key": "type", "header": "Type Description", "type": "text" }
+    ])";
+
+    child tableRows {
+        selector: "table.highlightable tr:not(.tableheader)";
+        bind posts: "td:nth-child(1) | text";
+        bind tag: "td:nth-child(2) a | text";
+        bind tagUrl: "td:nth-child(2) a | attr:href";
+        bind type: "td:nth-child(3) | text";
+    }
+
+    child pageLinks extends DocumentLink {
+        selector: "#paginator .pagination a";
+    }
+}
+
+reconstruct "#content:has(table.highlightable)" -> UiTableListPage {
+    urlPattern: "page=pool&s=list";
+    infiniteScroll: R"({
+      "nextPageSelector": "#paginator .pagination a",
+      "nextPageText": ">"
+    })";
+
+    pageTitle: "Pools / Collections";
+    height: "calc(100vh - 78px)";
+    columns: R"([
+      { "key": "name", "header": "Pool Title", "type": "link", "urlKey": "nameUrl" },
+      { "key": "creator", "header": "Created By", "type": "link", "urlKey": "creatorUrl" },
+      { "key": "posts", "header": "Posts Count", "width": "120px", "type": "text" },
+      { "key": "isPublic", "header": "Public Status", "width": "120px", "type": "text" }
+    ])";
+
+    child tableRows {
+        selector: "table.highlightable tbody tr";
+        bind name: "td:nth-child(1) a | text";
+        bind nameUrl: "td:nth-child(1) a | attr:href";
+        bind creator: "td:nth-child(2) a | text";
+        bind creatorUrl: "td:nth-child(2) a | attr:href";
+        bind posts: "td:nth-child(3) | text";
+        bind isPublic: "td:nth-child(4) | text";
+    }
+
+    child pageLinks extends DocumentLink {
+        selector: "#paginator .pagination a";
+    }
+}
+
+reconstruct "#content:has(table.highlightable)" -> UiTableListPage {
+    urlPattern: "page=forum&s=list";
+    infiniteScroll: R"({
+      "nextPageSelector": "#paginator .pagination a",
+      "nextPageText": ">"
+    })";
+
+    pageTitle: "Community Forum";
+    height: "calc(100vh - 78px)";
+    columns: R"([
+      { "key": "title", "header": "Discussion Topic", "type": "html" },
+      { "key": "createdBy", "header": "Created By", "type": "text" },
+      { "key": "updated", "header": "Last Updated", "type": "text" },
+      { "key": "updatedBy", "header": "Updated By", "type": "text" },
+      { "key": "replies", "header": "Replies", "width": "100px", "type": "text" }
+    ])";
+
+    child tableRows {
+        selector: "table.highlightable tbody tr";
+        bind title: "td:nth-child(1) | html";
+        bind createdBy: "td:nth-child(2) | text";
+        bind updated: "td:nth-child(3) span | attr:title";
+        bind updatedBy: "td:nth-child(4) | text";
+        bind replies: "td:nth-child(5) | text";
+    }
+
+    child pageLinks extends DocumentLink {
+        selector: "#paginator .pagination a";
+    }
+}

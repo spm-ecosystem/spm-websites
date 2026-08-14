@@ -1,0 +1,16 @@
+class HNPostItem {
+  bind rank: "span.rank | text";
+  bind title: "span.titleline a | text";
+  bind url: "span.titleline a | attr:href";
+  bind domain: "span.sitestr | text";
+  bind points: "span.score | text";
+  bind author: "a.hnuser | text";
+  bind timeAgo: "span.age | text";
+  bind commentsCount: "a:last-child | text";
+}
+
+class HNCommentItem {
+  bind author: "a.hnuser | text";
+  bind timeAgo: "span.age | text";
+  bind commentText: "div.comment span.commtext | html";
+}

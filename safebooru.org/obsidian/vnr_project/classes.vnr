@@ -1,0 +1,16 @@
+class StandardLink {
+    bind label: "self | text";
+    bind url: "self | attr:href";
+}
+
+class DocumentLink extends StandardLink {
+    scope: "document";
+}
+
+class TagItem {
+    scope: "document";
+    bind name: "a:last-of-type | text";
+    bind count: "span.tag-count | text";
+    bind type: "self | attr:class";
+    bind url: "a:last-of-type | attr:href";
+}

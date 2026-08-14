@@ -1,0 +1,766 @@
+{
+    "components": [
+        {
+            "action": "replace",
+            "containerSelector": "#header, #navbar, header, .navbar, #topbar",
+            "name": "UiNavHeader",
+            "props": {
+                "className": "safebooru-site-nav",
+                "logoHref": "https://safebooru.org/",
+                "primaryLinks": [
+                    {
+                        "label": "My Account",
+                        "url": "https://safebooru.org/index.php?page=account&s=home"
+                    },
+                    {
+                        "label": "Posts",
+                        "url": "https://safebooru.org/index.php?page=post&s=list&tags=all"
+                    },
+                    {
+                        "label": "Comments",
+                        "url": "https://safebooru.org/index.php?page=comment&s=list"
+                    },
+                    {
+                        "label": "Wiki",
+                        "url": "https://safebooru.org/index.php?page=wiki&s=list"
+                    },
+                    {
+                        "label": "Aliases",
+                        "url": "https://safebooru.org/index.php?page=alias&s=list"
+                    },
+                    {
+                        "label": "Artists",
+                        "url": "https://safebooru.org/index.php?page=artist&s=list"
+                    },
+                    {
+                        "label": "Tags",
+                        "url": "https://safebooru.org/index.php?page=tags&s=list"
+                    },
+                    {
+                        "label": "Pools",
+                        "url": "https://safebooru.org/index.php?page=pool&s=list"
+                    },
+                    {
+                        "label": "Forum",
+                        "url": "https://safebooru.org/index.php?page=forum&s=list"
+                    },
+                    {
+                        "label": "Stats",
+                        "url": "https://safebooru.org/index.php?page=stats"
+                    },
+                    {
+                        "label": "Help",
+                        "url": "https://safebooru.org/index.php?page=help"
+                    }
+                ],
+                "secondaryLinks": [
+                    {
+                        "label": "Video",
+                        "url": "https://safebooru.org/index.php?page=post&s=list&tags=video"
+                    },
+                    {
+                        "label": "Upload",
+                        "url": "https://safebooru.org/index.php?page=post&s=add"
+                    },
+                    {
+                        "label": "My Favorites",
+                        "url": "https://safebooru.org/index.php?page=favorites&s=view"
+                    },
+                    {
+                        "label": "Random",
+                        "url": "https://safebooru.org/index.php?page=post&s=random"
+                    },
+                    {
+                        "label": "Contact Us",
+                        "url": "https://safebooru.org/index.php?page=contact"
+                    },
+                    {
+                        "label": "DMCA",
+                        "url": "https://safebooru.org/index.php?page=dmca"
+                    },
+                    {
+                        "label": "About",
+                        "url": "https://safebooru.org/index.php?page=about"
+                    },
+                    {
+                        "label": "Help",
+                        "url": "https://safebooru.org/index.php?page=help&topic=post"
+                    },
+                    {
+                        "label": "TOS",
+                        "url": "https://safebooru.org/index.php?page=tos"
+                    }
+                ]
+            },
+            "propsMap": {
+                "logoUrl": "#site-title img | attr:src",
+                "siteName": "#site-title a | text"
+            }
+        },
+        {
+            "action": "hide",
+            "containerSelector": "#subnavbar",
+            "name": "UiNavHeader"
+        },
+        {
+            "action": "replace",
+            "containerSelector": "#tag-sidebar form, .tag-search form, .sidebar form",
+            "name": "UiSearchBar",
+            "props": {
+                "placeholder": "Search tags…",
+                "queryParamName": "tags",
+                "submitUrl": "https://safebooru.org/index.php?page=post&s=list"
+            },
+            "propsMap": {
+                "defaultValue": "input[name='tags'] | attr:value"
+            }
+        }
+    ],
+    "minEngineVersion": "1.0.0",
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "primaryLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "selector": "#links a"
+                }
+            ],
+            "containerSelector": "#static-index",
+            "layoutComponent": "UiHeroLanding",
+            "props": {
+                "ctaLabel": "Browse Gallery",
+                "ctaUrl": "https://safebooru.org/index.php?page=post&s=list&tags=all",
+                "searchParamName": "tags",
+                "searchPlaceholder": "Search tags... (e.g. blue_hair 1girl)",
+                "searchSubmitUrl": "https://safebooru.org/index.php?page=post&s=list",
+                "subtext": "Browse millions of safe anime illustrations, updated hourly.",
+                "tagline": "Anime picture search engine"
+            },
+            "propsMap": {
+                "logoUrl": "img[alt='Safebooru'] | attr:src",
+                "siteName": "img[alt='Safebooru'] | attr:alt"
+            },
+            "urlPattern": "safebooru\\.org\\/?(?:index\\.php)?$"
+        },
+        {
+            "children": [
+                {
+                    "name": "items",
+                    "propsMap": {
+                        "id": "self | attr:id",
+                        "imageUrl": "img | attr:src",
+                        "linkUrl": "a | attr:href",
+                        "title": "img | attr:title"
+                    },
+                    "selector": "#post-list .thumb"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "selector": "#paginator .pagination a"
+                },
+                {
+                    "name": "tags",
+                    "propsMap": {
+                        "addUrl": "a:nth-of-type(2) | attr:href",
+                        "count": "span.tag-count | text",
+                        "name": "a:last-of-type | text",
+                        "removeUrl": "a:nth-of-type(3) | attr:href",
+                        "type": "self | attr:class",
+                        "url": "a:last-of-type | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#tag-sidebar li"
+                }
+            ],
+            "containerSelector": "#post-list",
+            "infiniteScroll": {
+                "nextPageSelector": "#paginator .pagination a",
+                "nextPageText": ">"
+            },
+            "layoutComponent": "UiModernGridPage",
+            "props": {
+                "className": "safebooru-gallery",
+                "height": "calc(100vh - 78px)",
+                "hideSidebarOnMobile": true,
+                "mobileBreakpoint": 720,
+                "mobileCardAspectRatio": "1 / 1.28",
+                "mobileColumns": 2,
+                "mobileGap": "8px",
+                "mobileHeaderSticky": true,
+                "mobilePadding": "8px",
+                "mobileShowHeader": true,
+                "mobileShowPagination": true,
+                "pageTitle": "Gallery",
+                "searchParamName": "tags",
+                "searchPlaceholder": "Search tags…",
+                "searchSubmitUrl": "https://safebooru.org/index.php?page=post&s=list",
+                "showSearch": true,
+                "sidebarWidth": "260px",
+                "tagGroups": [
+                    {
+                        "title": "Artists",
+                        "typeKey": "artist"
+                    },
+                    {
+                        "title": "Copyrights",
+                        "typeKey": "copyright"
+                    },
+                    {
+                        "title": "Characters",
+                        "typeKey": "character"
+                    },
+                    {
+                        "title": "General",
+                        "typeKey": "general"
+                    },
+                    {
+                        "title": "Meta",
+                        "typeKey": "metadata"
+                    }
+                ]
+            },
+            "propsMap": {
+                "searchDefaultValue": ".sidebar form input[name='tags'] | attr:value"
+            },
+            "urlPattern": "page=post&s=list"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "name": "tags",
+                            "propsMap": {
+                                "label": "a | text",
+                                "type": "self | attr:class",
+                                "url": "a | attr:href"
+                            },
+                            "selector": ".col2 .tags span"
+                        },
+                        {
+                            "name": "comments",
+                            "propsMap": {
+                                "author": ".author h6 a | text",
+                                "authorUrl": ".author h6 a | attr:href",
+                                "body": ".content .body | text",
+                                "date": ".author span.date | text"
+                            },
+                            "selector": ".response-list div.post"
+                        }
+                    ],
+                    "name": "threads",
+                    "propsMap": {
+                        "id": "self | attr:id",
+                        "postDate": ".col2 span.info:nth-child(1) | text",
+                        "postRating": ".col2 span.info:nth-child(3) | text",
+                        "postScore": ".col2 span.info:nth-child(4) | text",
+                        "postUrl": ".col1 a | attr:href",
+                        "postUser": ".col2 span.info:nth-child(2) | text",
+                        "thumbnailUrl": ".col1 img | attr:src"
+                    },
+                    "selector": "#comment-list > div.post"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#paginator .pagination a"
+                }
+            ],
+            "containerSelector": "#content:has(#comment-list)",
+            "layoutComponent": "UiCommentListPage",
+            "preserve": {
+                "sidebarSlot": ".sidebar"
+            },
+            "props": {
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Comments"
+            },
+            "urlPattern": "page=comment&s=list"
+        },
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "iconLink": "td:nth-child(1) a | attr:href",
+                        "iconUrl": "td:nth-child(1) img | attr:src",
+                        "lastUpdatedText": "td:nth-child(2) span | text",
+                        "lastUpdatedUser": "td:nth-child(2) span a | text",
+                        "lastUpdatedUserUrl": "td:nth-child(2) span a | attr:href",
+                        "title": "td:nth-child(2) a | text",
+                        "titleUrl": "td:nth-child(2) a | attr:href",
+                        "version": "td:nth-child(3) h3 | text"
+                    },
+                    "selector": "table.highlightable tr"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#paginator .pagination a"
+                }
+            ],
+            "containerSelector": "#content:has(table.highlightable)",
+            "layoutComponent": "UiTableListPage",
+            "preserve": {
+                "sidebarSlot": ".sidebar"
+            },
+            "props": {
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Wiki Pages"
+            },
+            "urlPattern": "page=wiki&s=list"
+        },
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "aliasName": "td:nth-child(2) a | text",
+                        "aliasUrl": "td:nth-child(2) a | attr:href",
+                        "pending": "td:nth-child(1) input[type='checkbox'] | attr:class",
+                        "reason": "td:nth-child(4) | text",
+                        "toName": "td:nth-child(3) a | text",
+                        "toUrl": "td:nth-child(3) a | attr:href"
+                    },
+                    "selector": "#aliases table.highlightable tr:not(.tableheader)"
+                }
+            ],
+            "containerSelector": "#content:has(table.highlightable)",
+            "infiniteScroll": {
+                "nextPageSelector": "#paginator .pagination a",
+                "nextPageText": ">"
+            },
+            "layoutComponent": "UiTableListPage",
+            "props": {
+                "columns": [
+                    {
+                        "header": "Pending",
+                        "key": "pending",
+                        "type": "checkbox",
+                        "width": "60px"
+                    },
+                    {
+                        "header": "Alias",
+                        "key": "aliasName",
+                        "type": "link",
+                        "urlKey": "aliasUrl"
+                    },
+                    {
+                        "header": "To Tag",
+                        "key": "toName",
+                        "type": "link",
+                        "urlKey": "toUrl"
+                    },
+                    {
+                        "header": "Reason / Discussion",
+                        "key": "reason",
+                        "type": "text"
+                    }
+                ],
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Tag Aliases"
+            },
+            "urlPattern": "page=alias&s=list"
+        },
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "actions": "td:nth-child(1) | html",
+                        "name": "td:nth-child(2) a | text",
+                        "nameUrl": "td:nth-child(2) a | attr:href",
+                        "updatedBy": "td:nth-child(3) | text"
+                    },
+                    "selector": "table.highlightable tr:not(.tableheader)"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#paginator .pagination a"
+                }
+            ],
+            "containerSelector": "#content:has(table.highlightable)",
+            "infiniteScroll": {
+                "nextPageSelector": "#paginator .pagination a",
+                "nextPageText": ">"
+            },
+            "layoutComponent": "UiTableListPage",
+            "props": {
+                "columns": [
+                    {
+                        "header": "Actions",
+                        "key": "actions",
+                        "type": "html",
+                        "width": "100px"
+                    },
+                    {
+                        "header": "Artist Name",
+                        "key": "name",
+                        "type": "link",
+                        "urlKey": "nameUrl"
+                    },
+                    {
+                        "header": "Updated By",
+                        "key": "updatedBy",
+                        "type": "text"
+                    }
+                ],
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Artists"
+            },
+            "urlPattern": "page=artist&s=list"
+        },
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "posts": "td:nth-child(1) | text",
+                        "tag": "td:nth-child(2) a | text",
+                        "tagUrl": "td:nth-child(2) a | attr:href",
+                        "type": "td:nth-child(3) | text"
+                    },
+                    "selector": "table.highlightable tr:not(.tableheader)"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#paginator .pagination a"
+                }
+            ],
+            "containerSelector": "#content:has(table.highlightable)",
+            "infiniteScroll": {
+                "nextPageSelector": "#paginator .pagination a",
+                "nextPageText": ">"
+            },
+            "layoutComponent": "UiTableListPage",
+            "props": {
+                "columns": [
+                    {
+                        "header": "Posts",
+                        "key": "posts",
+                        "type": "text",
+                        "width": "120px"
+                    },
+                    {
+                        "header": "Tag",
+                        "key": "tag",
+                        "type": "badge",
+                        "urlKey": "tagUrl"
+                    },
+                    {
+                        "header": "Type Description",
+                        "key": "type",
+                        "type": "text"
+                    }
+                ],
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Tags Directory"
+            },
+            "urlPattern": "page=tags&s=list"
+        },
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "creator": "td:nth-child(2) a | text",
+                        "creatorUrl": "td:nth-child(2) a | attr:href",
+                        "isPublic": "td:nth-child(4) | text",
+                        "name": "td:nth-child(1) a | text",
+                        "nameUrl": "td:nth-child(1) a | attr:href",
+                        "posts": "td:nth-child(3) | text"
+                    },
+                    "selector": "table.highlightable tbody tr"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#paginator .pagination a"
+                }
+            ],
+            "containerSelector": "#content:has(table.highlightable)",
+            "infiniteScroll": {
+                "nextPageSelector": "#paginator .pagination a",
+                "nextPageText": ">"
+            },
+            "layoutComponent": "UiTableListPage",
+            "props": {
+                "columns": [
+                    {
+                        "header": "Pool Title",
+                        "key": "name",
+                        "type": "link",
+                        "urlKey": "nameUrl"
+                    },
+                    {
+                        "header": "Created By",
+                        "key": "creator",
+                        "type": "link",
+                        "urlKey": "creatorUrl"
+                    },
+                    {
+                        "header": "Posts Count",
+                        "key": "posts",
+                        "type": "text",
+                        "width": "120px"
+                    },
+                    {
+                        "header": "Public Status",
+                        "key": "isPublic",
+                        "type": "text",
+                        "width": "120px"
+                    }
+                ],
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Pools / Collections"
+            },
+            "urlPattern": "page=pool&s=list"
+        },
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "createdBy": "td:nth-child(2) | text",
+                        "replies": "td:nth-child(5) | text",
+                        "title": "td:nth-child(1) | html",
+                        "updated": "td:nth-child(3) span | attr:title",
+                        "updatedBy": "td:nth-child(4) | text"
+                    },
+                    "selector": "table.highlightable tbody tr"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#paginator .pagination a"
+                }
+            ],
+            "containerSelector": "#content:has(table.highlightable)",
+            "infiniteScroll": {
+                "nextPageSelector": "#paginator .pagination a",
+                "nextPageText": ">"
+            },
+            "layoutComponent": "UiTableListPage",
+            "props": {
+                "columns": [
+                    {
+                        "header": "Discussion Topic",
+                        "key": "title",
+                        "type": "html"
+                    },
+                    {
+                        "header": "Created By",
+                        "key": "createdBy",
+                        "type": "text"
+                    },
+                    {
+                        "header": "Last Updated",
+                        "key": "updated",
+                        "type": "text"
+                    },
+                    {
+                        "header": "Updated By",
+                        "key": "updatedBy",
+                        "type": "text"
+                    },
+                    {
+                        "header": "Replies",
+                        "key": "replies",
+                        "type": "text",
+                        "width": "100px"
+                    }
+                ],
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Community Forum"
+            },
+            "urlPattern": "page=forum&s=list"
+        },
+        {
+            "children": [
+                {
+                    "name": "imageSlot",
+                    "propsMap": {
+                        "alt": "self | attr:alt",
+                        "src": "self | attr:src"
+                    },
+                    "selector": "#image"
+                },
+                {
+                    "name": "tags",
+                    "propsMap": {
+                        "count": "span.tag-count | text",
+                        "name": "a:last-of-type | text",
+                        "type": "self | attr:class",
+                        "url": "a:last-of-type | attr:href"
+                    },
+                    "scope": "document",
+                    "selector": "#tag-sidebar li[class*='tag-type-']"
+                },
+                {
+                    "name": "buttons",
+                    "propsMap": {
+                        "label": "self | text",
+                        "targetSelector": "self | selector",
+                        "url": "self | hrefOrOnclick"
+                    },
+                    "scope": "document",
+                    "selector": ".link-list a"
+                }
+            ],
+            "containerSelector": "#post-view",
+            "layoutComponent": "UiSplitLayout",
+            "props": {
+                "height": "calc(100vh - 78px)",
+                "imageFit": "contain",
+                "searchParamName": "tags",
+                "searchPlaceholder": "Search tags...",
+                "searchSubmitUrl": "https://safebooru.org/index.php?page=post&s=list",
+                "showSearch": true,
+                "sidebarSide": "left",
+                "sidebarWidth": "300px",
+                "tagGroups": [
+                    {
+                        "title": "Artists",
+                        "typeKey": "artist"
+                    },
+                    {
+                        "title": "Copyrights",
+                        "typeKey": "copyright"
+                    },
+                    {
+                        "title": "Characters",
+                        "typeKey": "character"
+                    },
+                    {
+                        "title": "General",
+                        "typeKey": "general"
+                    },
+                    {
+                        "title": "Meta",
+                        "typeKey": "metadata"
+                    }
+                ]
+            },
+            "propsMap": {
+                "statisticsHtml": "#stats ul | html"
+            },
+            "urlPattern": "page=post&s=view"
+        },
+        {
+            "children": [
+                {
+                    "name": "navLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "selector": "#content > a"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "items",
+                            "propsMap": {
+                                "amount": "td:nth-child(2) | text",
+                                "name": "td:nth-child(3) a | text",
+                                "place": "td:nth-child(1) | text",
+                                "profileUrl": "td:nth-child(3) a | attr:href"
+                            },
+                            "selector": "tbody tr"
+                        }
+                    ],
+                    "name": "sections",
+                    "propsMap": {
+                        "title": "thead tr th | text"
+                    },
+                    "selector": "div.toptencont"
+                }
+            ],
+            "containerSelector": "#content:has(div.toptencont)",
+            "layoutComponent": "UiStatsDashboard",
+            "props": {
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "Booru Statistics Dashboard"
+            },
+            "propsMap": {
+                "dateRangeText": "h2 | text"
+            },
+            "urlPattern": "page=stats"
+        },
+        {
+            "children": [
+                {
+                    "name": "cards",
+                    "propsMap": {
+                        "description": "self | nextSiblingText",
+                        "title": "self | text",
+                        "url": "a | attr:href",
+                        "urlLabel": "a | text"
+                    },
+                    "selector": "#user-index h4"
+                }
+            ],
+            "containerSelector": "#user-index",
+            "layoutComponent": "UiDashboardPage",
+            "props": {
+                "height": "calc(100vh - 78px)",
+                "pageTitle": "My Account Home",
+                "subTitle": "Manage your settings, options, and sign up or login status."
+            },
+            "urlPattern": "page=account&s=home"
+        }
+    ],
+    "targetUrl": "*://safebooru.org/*",
+    "theme": {
+        "author": "watashi-00",
+        "cssVariables": {
+            "--spm-accent": "#7c6af5",
+            "--spm-accent-fg": "#ffffff",
+            "--spm-accent-hover": "#9d8fff",
+            "--spm-bg-primary": "#000000",
+            "--spm-bg-secondary": "#111111",
+            "--spm-bg-tertiary": "#222222",
+            "--spm-border": "#333333",
+            "--spm-radius": "10px",
+            "--spm-text-muted": "#a1a1aa",
+            "--spm-text-primary": "#ffffff"
+        },
+        "customStyles": "#notice, #long-notice, #has-mail-notice, #safe-image-notice { display: none !important; }",
+        "description": "Auto-versioning Obsidian dark theme on pipeline",
+        "label": "Obsidian"
+    }
+}

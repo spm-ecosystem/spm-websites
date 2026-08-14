@@ -1,0 +1,31 @@
+/* Content CSS injected for news.ycombinator.com/dark-modern */
+body {
+  background-color: #060606 !important;
+  color: #f4f4f5 !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#hnmain {
+  background-color: transparent !important;
+  width: 100% !important;
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  border: none !important;
+}
+
+.votearrow {
+  filter: invert(0.6) sepia(1) saturate(5) hue-rotate(350deg) !important;
+  cursor: pointer !important;
+}
+
+a {
+  color: #f4f4f5 !important;
+  text-decoration: none !important;
+}
+
+a:hover {
+  color: #ff6600 !important;
+  text-decoration: underline !important;
+}
