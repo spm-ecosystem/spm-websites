@@ -1,0 +1,53 @@
+#!/bin/bash
+# Pre-commit hook to auto-compile Veneer Specs to manifest.json before committing.
+
+# Get list of staged .vnr files
+staged_vnr=$(git diff --cached --name-only --diff-filter=ACM | grep '\.vnr$')
+
+if [ -z "$staged_vnr" ]; then
+    exit 0
+fi
+
+echo "🔍 Staged .vnr files detected. Auto-compiling layout manifests..."
+
+# Check if spm CLI is available
+if ! command -v spm &> /dev/null && [ ! -f "./spm" ] && [ ! -f "../spm-cli/spm" ]; then
+    echo "⚠️  Warning: 'spm' compiler binary not found in PATH or parent directories."
+    echo "Please ensure spm-cli is built and 'spm' is accessible."
+    echo "Commit will proceed, but make sure to compile manually before pushing."
+    exit 0
+fi
+
+# Locate spm executable
+SPM_BIN="spm"
+if [ -f "./spm" ]; then
+    SPM_BIN="./spm"
+elif [ -f "../spm-cli/spm" ]; then
+    SPM_BIN="../spm-cli/spm"
+fi
+
+# Track compiled folders to avoid duplicate compilation
+compiled_folders=()
+
+for file in $staged_vnr; do
+    # Extract the theme folder (domain subdirectory)
+    # The file path format is: <domain-name>/vnr_project/<file>.vnr
+    domain_dir=$(echo "$file" | cut -d'/' -f1)
+    
+    # Check if domain directory is already compiled in this run
+    if [[ ! " ${compiled_folders[@]} " =~ " ${domain_dir} " ]]; then
+        if [ -d "$domain_dir/vnr_project" ]; then
+            echo "🔨 Compiling theme layout for $domain_dir..."
+            if $SPM_BIN compile "$domain_dir/vnr_project" -o "$domain_dir/manifest.json"; then
+                git add "$domain_dir/manifest.json"
+                compiled_folders+=("$domain_dir")
+            else
+                echo "❌ Error: Compilation failed for $domain_dir! Commit aborted."
+                exit 1
+            fi
+        fi
+    fi
+done
+
+echo "✅ All modified layouts compiled and staged successfully."
+exit 0

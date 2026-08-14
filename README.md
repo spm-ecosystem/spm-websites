@@ -42,6 +42,20 @@ To compile design changes in a theme folder into the target layout `manifest.jso
     ```
 3.  The compiler will recursively read all `.vnr` layout resources, resolve class inheritance structures, validate variables, and generate a clean, schema-compliant `manifest.json`.
 
+### 💡 Auto-Compile on Git Commit (Pre-commit Hook)
+To prevent out-of-sync commits where a developer edits a `.vnr` file but forgets to compile the `manifest.json` before committing, this repository includes a Git pre-commit hook.
+
+To activate the automatic compilation hook:
+```bash
+# Direct git to read hooks from the .githooks folder
+git config core.hooksPath .githooks
+```
+
+Once activated, whenever you run `git commit`:
+1.  The hook detects if any `.vnr` files are staged.
+2.  It automatically locates their theme folder and compiles the Veneer sources into `manifest.json`.
+3.  It stages the compiled `manifest.json` automatically, committing them together in a single step!
+
 ---
 
 ## GitOps Publishing Pipeline & Edge Sync
