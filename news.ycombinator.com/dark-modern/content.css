@@ -1,31 +1,177 @@
-/* Content CSS injected for news.ycombinator.com/dark-modern */
-body {
-  background-color: #060606 !important;
+/* Hacker News Dark Modern Theme - Production CSS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+html, body {
+  background-color: #09090b !important;
   color: #f4f4f5 !important;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
   margin: 0 !important;
   padding: 0 !important;
+  -webkit-font-smoothing: antialiased !important;
 }
 
 #hnmain {
   background-color: transparent !important;
   width: 100% !important;
-  max-width: 1100px !important;
-  margin: 0 auto !important;
+  max-width: 960px !important;
+  margin: 2rem auto !important;
   border: none !important;
+  padding: 0 1.5rem !important;
 }
 
-.votearrow {
-  filter: invert(0.6) sepia(1) saturate(5) hue-rotate(350deg) !important;
-  cursor: pointer !important;
+/* Header Table */
+#hnmain > tbody > tr:first-child > td {
+  background: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  padding: 12px 20px !important;
 }
 
-a {
+.hnname a {
+  font-weight: 800 !important;
+  font-size: 16px !important;
+  color: #ffffff !important;
+  letter-spacing: -0.02em !important;
+}
+
+.pagetop {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  color: #a1a1aa !important;
+}
+
+.pagetop a {
+  color: #a1a1aa !important;
+  font-weight: 500 !important;
+  margin: 0 6px !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+.pagetop a:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  text-decoration: none !important;
+}
+
+/* Main Story Items Container */
+#hnmain > tbody > tr:nth-child(3) > td {
+  padding-top: 1.5rem !important;
+}
+
+/* Each Story Item Row (tr.athing) */
+tr.athing {
+  background: #121215 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px 8px 0 0 !important;
+  transition: transform 0.15s ease, border-color 0.15s ease !important;
+}
+
+tr.athing:hover {
+  border-color: rgba(255, 102, 0, 0.4) !important;
+}
+
+/* Subtext Row below story */
+tr.athing + tr {
+  background: #121215 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: none !important;
+  border-radius: 0 0 8px 8px !important;
+  margin-bottom: 1.25rem !important;
+}
+
+/* Rank Number */
+span.rank {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  color: #ff6600 !important;
+  padding-left: 14px !important;
+}
+
+/* Story Title */
+.titleline {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+}
+
+.titleline a {
   color: #f4f4f5 !important;
   text-decoration: none !important;
 }
 
-a:hover {
+.titleline a:hover {
   color: #ff6600 !important;
-  text-decoration: underline !important;
+}
+
+/* Domain Site Badge */
+span.sitestr {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  color: #ff6600 !important;
+  background: rgba(255, 102, 0, 0.1) !important;
+  border: 1px solid rgba(255, 102, 0, 0.25) !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  margin-left: 8px !important;
+}
+
+/* Subtext Metadata (Score, Author, Age, Comments) */
+.subtext {
+  font-size: 12px !important;
+  color: #71717a !important;
+  padding: 6px 14px 12px !important;
+}
+
+.subtext a {
+  color: #a1a1aa !important;
+  font-weight: 500 !important;
+}
+
+.subtext a:hover {
+  color: #ff6600 !important;
+}
+
+/* Score / Points Pill */
+.score {
+  font-weight: 700 !important;
+  color: #34d399 !important;
+}
+
+/* Vote Arrow Styling */
+.votearrow {
+  width: 10px !important;
+  height: 10px !important;
+  border-left: 2px solid #ff6600 !important;
+  border-top: 2px solid #ff6600 !important;
+  transform: rotate(45deg) !important;
+  display: inline-block !important;
+  margin: 0 6px !important;
+  background: none !important;
+}
+
+/* Comments Section */
+.comment-tree {
+  margin-top: 2rem !important;
+}
+
+.comtr {
+  background: #121215 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  margin-bottom: 10px !important;
+  padding: 12px !important;
+}
+
+.comment {
+  color: #e4e4e7 !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+}
+
+.comhead {
+  color: #71717a !important;
+  font-size: 12px !important;
 }

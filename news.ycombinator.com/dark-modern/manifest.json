@@ -80,6 +80,7 @@
             }
         }
     ],
+    "targetUrl": "*://news.ycombinator.com/*",
     "theme": {
         "cssVariables": {
             "--spm-accent": "#ff6600",
