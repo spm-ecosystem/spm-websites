@@ -1,4 +1,4 @@
-theme "DarkModernHN" {
+theme "Dark Modern HN" {
   variables {
     --spm-bg-primary: "#060606";
     --spm-bg-secondary: "#121212";

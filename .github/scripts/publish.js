@@ -3,12 +3,12 @@ const crypto = require('crypto');
 
 const secret = process.env.SPM_DEV_SECRET;
 const authToken = process.env.API_AUTH_TOKEN;
-const changedFiles = process.env.CHANGED_FILES.split(' ');
+const changedFiles = (process.env.CHANGED_FILES || '').split(' ');
 
 async function publish() {
     for (const file of changedFiles) {
-        // Ignore files that are not manifests
-        if (!file || !file.endsWith('manifest.json')) continue;
+        // Ignore empty files, non-manifests, and nested vnr_project manifests
+        if (!file || !file.endsWith('manifest.json') || file.includes('vnr_project')) continue;
 
         console.log(`\n📦 Processing: ${file}`);
         const rawPayload = fs.readFileSync(file, 'utf8');
@@ -28,8 +28,15 @@ async function publish() {
             cssContent = fs.readFileSync(cssFile, 'utf8');
         }
 
-        const domain = manifest.targetUrl.replace("*://", "").replace("/*", "");
-        const themeName = manifest.theme.label.toLowerCase().replace(/\s+/g, '-');
+        // Derive domain and themeName safely with fallback to directory path
+        const pathParts = file.split('/');
+        const domain = manifest.targetUrl 
+            ? manifest.targetUrl.replace("*://", "").replace("/*", "") 
+            : (pathParts[0] || "global");
+
+        const themeName = (manifest.theme && manifest.theme.label)
+            ? manifest.theme.label.toLowerCase().replace(/\s+/g, '-')
+            : (pathParts[1] || "default");
 
         // Resolve version from Edge registry
         console.log(`🔍 Resolving latest version from edge for ${domain}/${themeName}...`);
@@ -59,54 +66,60 @@ async function publish() {
                     });
                     const latest = sorted[sorted.length - 1];
                     const parts = latest.split(".").map(Number);
-                    parts[2] += 1;
+                    parts[2] += 1; // Increment patch version
                     resolvedVersion = parts.join(".");
                 }
             }
-        } catch (err) {
-            console.warn(`⚠️ Warning: Failed to query edge registry, defaulting version to 1.0.0:`, err.message);
+        } catch (e) {
+            console.warn(`⚠️ Could not reach edge registry to resolve version, defaulting to ${resolvedVersion}:`, e.message);
         }
 
-        console.log(`🏷️ Next version resolved: ${resolvedVersion}`);
+        console.log(`🏷️  Target Version: ${resolvedVersion}`);
         manifest.version = resolvedVersion;
+        if (!manifest.targetUrl) {
+            manifest.targetUrl = `*://${domain}/*`;
+        }
+        if (!manifest.theme) {
+            manifest.theme = { label: themeName, cssVariables: {} };
+        }
 
-        const requestBody = JSON.stringify({
-            manifest,
+        const payload = JSON.stringify({
+            manifest: manifest,
             css: cssContent
         });
 
-        // 1. Generate the HMAC SHA-256 (The integrity seal)
+        // Compute HMAC signature using SHA-256
         const hmac = crypto.createHmac('sha256', secret);
-        hmac.update(requestBody);
+        hmac.update(payload);
         const signature = hmac.digest('hex');
 
-        const url = `https://spm.hexacloud.net.br/spm/v1/api/publish/${domain}/${themeName}/${resolvedVersion}`;
+        console.log(`🔐 Generated Signature: ${signature.substring(0, 16)}...`);
+        console.log(`🚀 Dispatching payload to R2 via edge endpoint...`);
 
-        console.log(`🚀 Sending to Cloudflare Edge...`);
+        try {
+            const response = await fetch("https://spm.hexacloud.net.br/spm/v1/api/themes/publish", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-spm-signature": signature,
+                    "Authorization": `Bearer ${authToken}`
+                },
+                body: payload
+            });
 
-        // 3. Fire the request to the Cloudflare Worker
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`,
-                'X-SPM-Integrity': signature
-            },
-            body: requestBody
-        });
+            const resultText = await response.text();
 
-        if (!response.ok) {
-            const err = await response.text();
-            console.error(`❌ Failed to publish ${themeName}:`, err);
-            process.exit(1); // Turns the Action red and alerts of the error
+            if (!response.ok) {
+                console.error(`❌ Edge Publish Error [${response.status}]: ${resultText}`);
+                process.exit(1);
+            }
+
+            console.log(`✅ Successfully published theme to edge: ${resultText}`);
+        } catch (err) {
+            console.error(`🔥 Network Error during edge publish: ${err.message}`);
+            process.exit(1);
         }
-
-        const result = await response.json();
-        console.log(`✅ Success! Manifest saved to R2 at: ${result.path}`);
     }
 }
 
-publish().catch(err => {
-    console.error("🔥 Critical pipeline failure:", err);
-    process.exit(1);
-});
+publish();
