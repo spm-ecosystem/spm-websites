@@ -1,0 +1,7 @@
+selector ".Footer" {
+  action: hide;
+}
+
+selector ".Pagination" {
+  action: hide;
+}

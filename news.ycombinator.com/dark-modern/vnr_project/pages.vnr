@@ -1,23 +1,16 @@
 reconstruct "table.itemlist" -> UiTableListPage {
-  pageTitle: "Hacker News - Front Page";
-  searchPlaceholder: "Search stories...";
+    pageTitle: "Hacker News - Front Page";
+    searchPlaceholder: "Search stories...";
 
-  child posts extends HNPostItem {
-    selector: "tr.athing";
-  }
+    preserve {
+        items: "tr.athing";
+    }
 }
 
 reconstruct "table.comment-tree" -> UiCommentListPage {
-  pageTitle: "Discussion Thread";
+    pageTitle: "Discussion Thread";
 
-  child comments extends HNCommentItem {
-    selector: "tr.athing.comtr";
-  }
-}
-
-reconstruct "form.comment-form" -> UiSearchBar {
-  placeholder: "Add your comment...";
-  preserve {
-    hiddenInputs: "form | hiddenInputs";
-  }
+    preserve {
+        comments: "tr.athing.comtr";
+    }
 }

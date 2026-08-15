@@ -14,71 +14,99 @@ html, body {
   background-color: transparent !important;
   width: 100% !important;
   max-width: 960px !important;
-  margin: 2rem auto !important;
+  margin: 1.5rem auto 5rem auto !important;
   border: none !important;
   padding: 0 1.5rem !important;
 }
 
-/* Header Table */
+/* Header Container */
 #hnmain > tbody > tr:first-child > td {
-  background: #18181b !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #121215 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 8px !important;
-  padding: 12px 20px !important;
+  padding: 10px 16px !important;
+}
+
+#hnmain > tbody > tr:first-child table {
+  width: 100% !important;
+}
+
+.hnname {
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  color: #ffffff !important;
+  margin-right: 12px !important;
 }
 
 .hnname a {
-  font-weight: 800 !important;
-  font-size: 16px !important;
   color: #ffffff !important;
-  letter-spacing: -0.02em !important;
+  text-decoration: none !important;
 }
 
 .pagetop {
   font-family: 'Inter', sans-serif !important;
   font-size: 13px !important;
-  color: #a1a1aa !important;
+  color: #71717a !important;
 }
 
 .pagetop a {
   color: #a1a1aa !important;
   font-weight: 500 !important;
-  margin: 0 6px !important;
   padding: 4px 8px !important;
   border-radius: 4px !important;
   transition: all 0.15s ease !important;
+  text-decoration: none !important;
 }
 
 .pagetop a:hover {
   color: #ffffff !important;
   background: rgba(255, 255, 255, 0.08) !important;
-  text-decoration: none !important;
+}
+
+/* Hide spacer row below header */
+#hnmain > tbody > tr:nth-child(2) {
+  height: 16px !important;
 }
 
 /* Main Story Items Container */
 #hnmain > tbody > tr:nth-child(3) > td {
-  padding-top: 1.5rem !important;
+  padding-top: 0.5rem !important;
 }
 
-/* Each Story Item Row (tr.athing) */
+table.itemlist {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 6px !important;
+}
+
+/* Story Item Title Row (tr.athing) */
 tr.athing {
   background: #121215 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 8px 8px 0 0 !important;
-  transition: transform 0.15s ease, border-color 0.15s ease !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
 }
 
-tr.athing:hover {
-  border-color: rgba(255, 102, 0, 0.4) !important;
+tr.athing > td {
+  padding-top: 10px !important;
+  padding-bottom: 2px !important;
 }
 
-/* Subtext Row below story */
+/* Story Item Subtext Row */
 tr.athing + tr {
   background: #121215 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-top: none !important;
-  border-radius: 0 0 8px 8px !important;
-  margin-bottom: 1.25rem !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+
+tr.athing + tr > td {
+  padding-top: 2px !important;
+  padding-bottom: 10px !important;
 }
 
 /* Rank Number */
@@ -87,7 +115,7 @@ span.rank {
   font-weight: 700 !important;
   font-size: 13px !important;
   color: #ff6600 !important;
-  padding-left: 14px !important;
+  padding-left: 12px !important;
 }
 
 /* Story Title */
@@ -106,23 +134,30 @@ span.rank {
   color: #ff6600 !important;
 }
 
+/* Clean up floating ASCII parentheses around domain badge */
+.sitebit.comhead {
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
 /* Domain Site Badge */
 span.sitestr {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 11px !important;
   color: #ff6600 !important;
-  background: rgba(255, 102, 0, 0.1) !important;
-  border: 1px solid rgba(255, 102, 0, 0.25) !important;
+  background: rgba(255, 102, 0, 0.12) !important;
+  border: 1px solid rgba(255, 102, 0, 0.3) !important;
   padding: 2px 8px !important;
   border-radius: 999px !important;
-  margin-left: 8px !important;
+  margin-left: 6px !important;
+  display: inline-block !important;
 }
 
 /* Subtext Metadata (Score, Author, Age, Comments) */
 .subtext {
   font-size: 12px !important;
   color: #71717a !important;
-  padding: 6px 14px 12px !important;
+  padding-left: 12px !important;
 }
 
 .subtext a {
@@ -142,8 +177,8 @@ span.sitestr {
 
 /* Vote Arrow Styling */
 .votearrow {
-  width: 10px !important;
-  height: 10px !important;
+  width: 8px !important;
+  height: 8px !important;
   border-left: 2px solid #ff6600 !important;
   border-top: 2px solid #ff6600 !important;
   transform: rotate(45deg) !important;
@@ -152,16 +187,110 @@ span.sitestr {
   background: none !important;
 }
 
+/* 🚀 Floating Action Dock 1: Floating "More" Pagination Pill (Bottom-Left) */
+a.morelink, .morelink {
+  position: fixed !important;
+  bottom: 24px !important;
+  left: 24px !important;
+  z-index: 999999 !important;
+  background: rgba(255, 102, 0, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(255, 102, 0, 0.4) !important;
+  border-radius: 999px !important;
+  padding: 10px 22px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+a.morelink:hover, .morelink:hover {
+  background: #ff6600 !important;
+  transform: translateY(-2px) scale(1.04) !important;
+  box-shadow: 0 12px 32px rgba(255, 102, 0, 0.6) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+/* 🚀 Floating Action Dock 2: Floating Glass Search Pill (Bottom-Right) */
+#hnmain form[action*="algolia"],
+#hnmain form {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 999999 !important;
+  background: rgba(18, 18, 21, 0.9) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 102, 0, 0.2) !important;
+  border-radius: 999px !important;
+  padding: 8px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  color: #f4f4f5 !important;
+  font-size: 12px !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+#hnmain input[type="text"] {
+  background: #18181b !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 999px !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  outline: none !important;
+  width: 180px !important;
+  transition: width 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+#hnmain input[type="text"]:focus {
+  border-color: #ff6600 !important;
+  width: 240px !important;
+  box-shadow: 0 0 16px rgba(255, 102, 0, 0.35) !important;
+}
+
+/* Footer Section Links */
+.yclinks, .yclinks a, font[color], font, td[bgcolor] {
+  color: #a1a1aa !important;
+  font-size: 13px !important;
+}
+
+.yclinks a {
+  color: #a1a1aa !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+.yclinks a:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
 /* Comments Section */
 .comment-tree {
-  margin-top: 2rem !important;
+  margin-top: 1.5rem !important;
+  width: 100% !important;
 }
 
 .comtr {
   background: #121215 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 6px !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
   padding: 12px !important;
 }
 

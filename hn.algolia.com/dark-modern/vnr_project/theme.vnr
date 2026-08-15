@@ -1,0 +1,15 @@
+theme "Dark Modern Algolia" {
+  variables {
+    --spm-bg-primary: "#09090b";
+    --spm-bg-surface: "#121215";
+    --spm-bg-element: "#18181b";
+    --spm-text-primary: "#f4f4f5";
+    --spm-text-muted: "#a1a1aa";
+    --spm-accent: "#ff6600";
+    --spm-border-contrast: "rgba(255, 255, 255, 0.08)";
+  }
+
+  customStyles {
+    "body { background-color: #09090b !important; color: #f4f4f5 !important; font-family: 'Inter', system-ui, sans-serif !important; margin: 0; padding: 0; }"
+  }
+}

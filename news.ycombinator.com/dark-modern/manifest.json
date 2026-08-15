@@ -1,11 +1,6 @@
 {
     "targetUrl": "*://news.ycombinator.com/*",
-    "components": [
-        {
-            "action": "hide",
-            "selector": "#hnmain > tbody > tr:nth-child(2)"
-        }
-    ],
+    "components": [],
     "reconstructs": [
         {
             "children": [
@@ -58,25 +53,6 @@
             },
             "props": {
                 "placeholder": "Add your comment..."
-            }
-        },
-        {
-            "children": [],
-            "containerSelector": "table#hnmain > tbody > tr:first-child",
-            "layoutComponent": "UiNavHeader",
-            "props": {
-                "logoUrl": "https://news.ycombinator.com/y18.svg",
-                "searchPlaceholder": "Search posts, comments, authors...",
-                "siteName": "Hacker News"
-            },
-            "propsMap": {
-                "linkAsk": "span.pagetop a[href='ask'] | text",
-                "linkComments": "span.pagetop a[href='newcomments'] | text",
-                "linkJobs": "span.pagetop a[href='jobs'] | text",
-                "linkNew": "span.pagetop a[href='newest'] | text",
-                "linkPast": "span.pagetop a[href='front'] | text",
-                "linkShow": "span.pagetop a[href='show'] | text",
-                "linkSubmit": "span.pagetop a[href='submit'] | text"
             }
         }
     ],

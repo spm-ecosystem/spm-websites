@@ -1,0 +1,17 @@
+reconstruct ".SearchResults_container" -> UiTableListPage {
+    urlPattern: "hn.algolia.com";
+    pageTitle: "Hacker News Search";
+    
+    preserve {
+        results: ".Story_container";
+        filters: ".SearchFilters";
+    }
+}
+
+selector ".Footer" {
+    action: hide;
+}
+
+selector ".Pagination" {
+    action: hide;
+}

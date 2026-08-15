@@ -1,0 +1,14 @@
+class AlgoliaSearchResultItem {
+  bind title: ".Story_title a | text";
+  bind url: ".Story_title a | attr:href";
+  bind domain: ".Story_link | text";
+  bind points: ".Story_meta span:first-child | text";
+  bind author: ".Story_meta a.hnuser | text";
+  bind age: ".Story_meta span.age | text";
+  bind commentsCount: ".Story_meta a:last-child | text";
+}
+
+class AlgoliaSublinkItem {
+  bind label: "a | text";
+  bind url: "a | attr:href";
+}

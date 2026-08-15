@@ -1,0 +1,300 @@
+/* Algolia Hacker News Search Dark Modern Theme */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* Force dark root */
+html, body, #root, main, main > div, .SearchResults, .experimental, .experimental.light, .experimental.dark {
+  background-color: #09090b !important;
+  color: #f4f4f5 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+/* 1. STICKY DARK HEADER OVERRIDE */
+.SearchHeader_SearchHeader, .SearchHeader, header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 99999 !important;
+  background: #121215 !important;
+  background-color: #121215 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 12px 24px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Centered Header Container at 900px */
+.SearchHeader_container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+/* Logo on Far Left */
+.SearchHeader_logo {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  margin-right: 16px !important;
+}
+
+.SearchHeader_logo img, .SearchHeader_logo svg {
+  width: 28px !important;
+  height: 28px !important;
+  flex-shrink: 0 !important;
+}
+
+.SearchHeader_label {
+  display: inline-block !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Search Box in Middle - Fills all space between Logo & Settings */
+.SearchHeader_search {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 16px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  background: transparent !important;
+  padding: 0 !important;
+  height: 38px !important;
+  box-sizing: border-box !important;
+}
+
+.SearchHeader .SearchIcon {
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #ff6600 !important;
+  z-index: 10 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.SearchHeader .SearchIcon svg {
+  width: 16px !important;
+  height: 16px !important;
+  color: #ff6600 !important;
+  fill: #ff6600 !important;
+}
+
+.SearchHeader .SearchInput, input[type="search"], input[type="text"] {
+  background: #18181b !important;
+  background-color: #18181b !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 8px 140px 8px 38px !important;
+  font-size: 13px !important;
+  height: 38px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+}
+
+.SearchHeader .SearchInput:focus {
+  border-color: #ff6600 !important;
+  box-shadow: 0 0 12px rgba(255, 102, 0, 0.25) !important;
+}
+
+.SearchHeader .PoweredBy {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 11px !important;
+  color: #71717a !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+.SearchHeader .PoweredBy img, .SearchHeader .PoweredBy svg {
+  height: 14px !important;
+}
+
+/* Settings Gear on Far Right via margin-left: auto */
+.SearchHeader_settings {
+  flex: 0 0 auto !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.SearchHeader_settings a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 6px !important;
+  padding: 6px !important;
+  width: 34px !important;
+  height: 34px !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.15s ease !important;
+}
+
+.SearchHeader_settings a:hover {
+  border-color: #ff6600 !important;
+}
+
+.SearchHeader_settings svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+}
+
+/* 2. FILTERS BAR */
+.SearchFilters_SearchFilters, .SearchFilters {
+  background: transparent !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #a1a1aa !important;
+}
+
+.SearchFilters *, .SearchFilters span, .SearchFilters label {
+  color: #a1a1aa !important;
+}
+
+.Dropdown_label, select {
+  background: #18181b !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  font-size: 12px !important;
+}
+
+/* 3. STRICT SINGLE STORY CARD (.Story_container) */
+.SearchResults_container {
+  max-width: 900px !important;
+  width: 100% !important;
+  margin: 14px auto !important;
+  padding: 0 16px !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+/* Force ALL internal containers to be transparent */
+.SearchResults_container *, .Story_Story, .Story_data, .Story_title, .Story_meta, .Comment, div, section, article {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Target ONLY .Story_container as the single card */
+.Story_container {
+  width: 100% !important;
+  max-width: 900px !important;
+  box-sizing: border-box !important;
+  background: #121215 !important;
+  background-color: #121215 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  padding: 16px 20px !important;
+  margin-bottom: 12px !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease !important;
+}
+
+.Story_container:hover {
+  border-color: rgba(255, 102, 0, 0.4) !important;
+}
+
+.Story_container * {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Force light text across all cards */
+.Story_container *, .Comment *, article *, div[class*="Story"] * {
+  color: #e4e4e7 !important;
+}
+
+/* Title & link */
+.Story_title a, article a {
+  color: #f4f4f5 !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  text-decoration: none !important;
+}
+
+.Story_title a:hover, article a:hover {
+  color: #ff6600 !important;
+}
+
+/* Domain link */
+.Story_link {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  color: #71717a !important;
+  margin-left: 6px !important;
+}
+
+/* HIGHLIGHT OVERRIDE */
+.Story_container em, .Story_title em, mark, em {
+  background: rgba(255, 102, 0, 0.18) !important;
+  background-color: rgba(255, 102, 0, 0.18) !important;
+  color: #ff6600 !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  padding: 1px 5px !important;
+  border-radius: 3px !important;
+}
+
+/* METADATA & SEPARATORS */
+.Story_meta, .Story_data, [class*="meta"] {
+  font-size: 12px !important;
+  color: #71717a !important;
+  margin-top: 6px !important;
+}
+
+.Story_meta a, .Story_data a {
+  color: #a1a1aa !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+.Story_meta a:hover {
+  color: #ff6600 !important;
+}
+
+.Story_separator {
+  color: rgba(255, 255, 255, 0.2) !important;
+  margin: 0 4px !important;
+}
+
+/* 4. HIDE FOOTER & PAGINATION BARS */
+.Footer, .Pagination, [class*="Pagination"], [class*="Footer"], hr {
+  display: none !important;
+}
