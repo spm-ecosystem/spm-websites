@@ -1,19 +1,18 @@
 {
-    "targetUrl": "*://hn.algolia.com/*",
-    "components": [],
-    "reconstructs": [],
-    "targetUrl": "*://hn.algolia.com/*",
-    "theme": {
-        "cssVariables": {
-            "--spm-accent": "#ff6600",
-            "--spm-bg-element": "#18181b",
-            "--spm-bg-primary": "#09090b",
-            "--spm-bg-surface": "#121215",
-            "--spm-border-contrast": "rgba(255, 255, 255, 0.08)",
-            "--spm-text-muted": "#a1a1aa",
-            "--spm-text-primary": "#f4f4f5"
-        },
-        "customStyles": "body { background-color: #09090b !important; color: #f4f4f5 !important; font-family: 'Inter', system-ui, sans-serif !important; margin: 0; padding: 0; }",
-        "label": "Dark Modern Algolia"
-    }
+  "targetUrl": "*://hn.algolia.com/*",
+  "components": [],
+  "reconstructs": [],
+  "theme": {
+    "cssVariables": {
+      "--spm-accent": "#ff6600",
+      "--spm-bg-element": "#18181b",
+      "--spm-bg-primary": "#09090b",
+      "--spm-bg-surface": "#121215",
+      "--spm-border-contrast": "rgba(255, 255, 255, 0.08)",
+      "--spm-text-muted": "#a1a1aa",
+      "--spm-text-primary": "#f4f4f5"
+    },
+    "customStyles": "body { background-color: #09090b !important; color: #f4f4f5 !important; font-family: 'Inter', system-ui, sans-serif !important; margin: 0; padding: 0; }",
+    "label": "Dark Modern Algolia"
+  }
 }
