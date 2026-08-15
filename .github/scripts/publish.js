@@ -5,6 +5,8 @@ const secret = process.env.SPM_DEV_SECRET;
 const authToken = process.env.API_AUTH_TOKEN;
 const changedFiles = (process.env.CHANGED_FILES || '').split(' ');
 
+const EDGE_BASE = "https://spm.hexacloud.net.br/spm/v1/api";
+
 async function publish() {
     for (const file of changedFiles) {
         // Ignore empty files, non-manifests, and nested vnr_project manifests
@@ -18,7 +20,7 @@ async function publish() {
             manifest = JSON.parse(rawPayload);
         } catch (e) {
             console.error(`❌ Error: Invalid JSON in ${file}`);
-            process.exit(1); // Fails the pipeline if the JSON is broken
+            process.exit(1);
         }
 
         // Try reading content.css sibling file
@@ -42,7 +44,7 @@ async function publish() {
         console.log(`🔍 Resolving latest version from edge for ${domain}/${themeName}...`);
         let resolvedVersion = "1.0.0";
         try {
-            const listResponse = await fetch(`https://spm.hexacloud.net.br/spm/v1/api/themes/${domain}`);
+            const listResponse = await fetch(`${EDGE_BASE}/themes/${domain}`);
             if (listResponse.ok) {
                 const listData = await listResponse.json();
                 const prefix = `themes/${domain}/${themeName}/`;
@@ -66,7 +68,7 @@ async function publish() {
                     });
                     const latest = sorted[sorted.length - 1];
                     const parts = latest.split(".").map(Number);
-                    parts[2] += 1; // Increment patch version
+                    parts[2] += 1;
                     resolvedVersion = parts.join(".");
                 }
             }
@@ -75,12 +77,26 @@ async function publish() {
         }
 
         console.log(`🏷️  Target Version: ${resolvedVersion}`);
+
+        // Ensure all required fields are present for Worker Zod validation
         manifest.version = resolvedVersion;
         if (!manifest.targetUrl) {
             manifest.targetUrl = `*://${domain}/*`;
         }
+        if (!manifest.minEngineVersion) {
+            manifest.minEngineVersion = "1.0.0";
+        }
         if (!manifest.theme) {
-            manifest.theme = { label: themeName, cssVariables: {} };
+            manifest.theme = {};
+        }
+        if (!manifest.theme.label) {
+            manifest.theme.label = themeName;
+        }
+        if (!manifest.theme.author) {
+            manifest.theme.author = "spm-ecosystem";
+        }
+        if (!manifest.theme.tags) {
+            manifest.theme.tags = [];
         }
 
         const payload = JSON.stringify({
@@ -93,15 +109,18 @@ async function publish() {
         hmac.update(payload);
         const signature = hmac.digest('hex');
 
+        // Build the correct publish URL: PUT /spm/v1/api/publish/:domain/:themeName/:version
+        const publishUrl = `${EDGE_BASE}/publish/${domain}/${themeName}/${resolvedVersion}`;
+
         console.log(`🔐 Generated Signature: ${signature.substring(0, 16)}...`);
-        console.log(`🚀 Dispatching payload to R2 via edge endpoint...`);
+        console.log(`🚀 Publishing to: ${publishUrl}`);
 
         try {
-            const response = await fetch("https://spm.hexacloud.net.br/spm/v1/api/themes/publish", {
-                method: "POST",
+            const response = await fetch(publishUrl, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-spm-signature": signature,
+                    "X-SPM-Integrity": signature,
                     "Authorization": `Bearer ${authToken}`
                 },
                 body: payload
@@ -114,7 +133,7 @@ async function publish() {
                 process.exit(1);
             }
 
-            console.log(`✅ Successfully published theme to edge: ${resultText}`);
+            console.log(`✅ Published ${domain}/${themeName}@${resolvedVersion}: ${resultText}`);
         } catch (err) {
             console.error(`🔥 Network Error during edge publish: ${err.message}`);
             process.exit(1);
