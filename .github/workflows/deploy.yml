@@ -7,29 +7,71 @@ on:
     paths:
       - '**/*/manifest.json'
       - '**/*/vnr_project/**'
+      - '**/*/content.css'
   pull_request:
     paths:
       - '**/*/manifest.json'
       - '**/*/vnr_project/**'
+      - '**/*/content.css'
 
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      changed_manifests: ${{ steps.changed-files.outputs.all_changed_files }}
-      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+      changed_manifests: ${{ steps.resolve-manifests.outputs.manifests }}
+      any_changed: ${{ steps.resolve-manifests.outputs.any_changed }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Detect Changed Manifests
+      - name: Detect Changed Theme Files
         id: changed-files
         uses: tj-actions/changed-files@v42
         with:
           files: |
             **/*/manifest.json
+            **/*/vnr_project/**
+            **/*/content.css
+
+      - name: Resolve Target Theme Manifests
+        id: resolve-manifests
+        run: |
+          RAW_CHANGED="${{ steps.changed-files.outputs.all_changed_files }}"
+          if [ -z "$RAW_CHANGED" ]; then
+            echo "any_changed=false" >> "$GITHUB_OUTPUT"
+            echo "manifests=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          MANIFEST_LIST=""
+          for file in $RAW_CHANGED; do
+            case "$file" in
+              */vnr_project/*)
+                theme_dir=$(echo "$file" | sed -E 's|/vnr_project/.*||')
+                manifest_path="$theme_dir/manifest.json"
+                ;;
+              *)
+                theme_dir=$(dirname "$file")
+                manifest_path="$theme_dir/manifest.json"
+                ;;
+            esac
+
+            if [ -f "$manifest_path" ]; then
+              MANIFEST_LIST="$MANIFEST_LIST $manifest_path"
+            fi
+          done
+
+          UNIQUE_MANIFESTS=$(echo "$MANIFEST_LIST" | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
+
+          if [ -n "$UNIQUE_MANIFESTS" ]; then
+            echo "any_changed=true" >> "$GITHUB_OUTPUT"
+            echo "manifests=$UNIQUE_MANIFESTS" >> "$GITHUB_OUTPUT"
+          else
+            echo "any_changed=false" >> "$GITHUB_OUTPUT"
+            echo "manifests=" >> "$GITHUB_OUTPUT"
+          fi
 
   validate:
     needs: detect-changes
@@ -51,7 +93,8 @@ jobs:
           CHANGED="${{ needs.detect-changes.outputs.changed_manifests }}"
           FAILED=0
 
-          for manifest in $CHANGED; do
+          echo "$CHANGED" | tr ' ' '\n' | sort -u | while IFS= read -r manifest; do
+            [ -z "$manifest" ] && continue
             theme_dir=$(dirname "$manifest")
             vnr_dir="$theme_dir/vnr_project"
 
@@ -93,16 +136,9 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Detect Changed Manifests
-        id: changed-files
-        uses: tj-actions/changed-files@v42
-        with:
-          files: |
-            **/*/manifest.json
-
       - name: Sign and Deploy Themes to R2 Edge
         env:
           SPM_DEV_SECRET: ${{ secrets.SPM_DEV_SECRET }}
           API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
-          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          CHANGED_FILES: ${{ needs.detect-changes.outputs.changed_manifests }}
         run: node .github/scripts/publish.js
