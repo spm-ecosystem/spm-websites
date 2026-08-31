@@ -14,3 +14,8 @@ reconstruct "table.comment-tree" -> UiCommentListPage {
         comments: "tr.athing.comtr";
     }
 }
+
+reconstruct "form[action*='search']" -> UiSearchBar {
+    bind defaultValue: "input[name='q'] | attr:value";
+    bind queryParamName: "q";
+}
