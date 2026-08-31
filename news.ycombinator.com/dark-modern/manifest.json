@@ -65,10 +65,18 @@
                         "label": "self | text",
                         "url": "self | attr:href"
                     },
-                    "selector": "span.pagetop a"
+                    "selector": "span.pagetop > a:not([href*='login']):not([href*='logout'])"
+                },
+                {
+                    "name": "secondaryLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "selector": "td[style*='text-align:right'] a"
                 }
             ],
-            "containerSelector": "#hnmain > tbody > tr:first-child > td",
+            "containerSelector": "#hnmain > tr:first-child > td",
             "layoutComponent": "UiNavHeader",
             "props": {
                 "logoHref": "/",

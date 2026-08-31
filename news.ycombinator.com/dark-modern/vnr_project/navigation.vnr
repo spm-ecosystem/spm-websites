@@ -1,11 +1,17 @@
-reconstruct "#hnmain > tbody > tr:first-child > td" -> UiNavHeader {
+reconstruct "#hnmain > tr:first-child > td" -> UiNavHeader {
     siteName: "Hacker News";
     logoUrl: "https://news.ycombinator.com/y18.svg";
     logoHref: "/";
     sticky: "true";
 
     child primaryLinks {
-        selector: "span.pagetop a";
+        selector: "span.pagetop > a:not([href*='login']):not([href*='logout'])";
+        bind label: "self | text";
+        bind url: "self | attr:href";
+    }
+
+    child secondaryLinks {
+        selector: "td[style*='text-align:right'] a";
         bind label: "self | text";
         bind url: "self | attr:href";
     }
