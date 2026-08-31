@@ -1,17 +1,24 @@
-reconstruct "table.itemlist" -> UiTableListPage {
-    pageTitle: "Hacker News - Front Page";
-    searchPlaceholder: "Search stories...";
+targetUrl: "*://news.ycombinator.com/*";
 
-    preserve {
-        items: "tr.athing";
+reconstruct "table.itemlist" -> UiTableListPage {
+    pageTitle: "Hacker News — Top Stories";
+
+    child tableRows extends HNStoryItem {
+        selector: "tr.athing";
+    }
+
+    child pageLinks {
+        selector: "a.morelink";
+        bind label: "self | text";
+        bind url: "self | attr:href";
     }
 }
 
 reconstruct "table.comment-tree" -> UiCommentListPage {
     pageTitle: "Discussion Thread";
 
-    preserve {
-        comments: "tr.athing.comtr";
+    child comments extends HNCommentItem {
+        selector: "tr.athing.comtr";
     }
 }
 
