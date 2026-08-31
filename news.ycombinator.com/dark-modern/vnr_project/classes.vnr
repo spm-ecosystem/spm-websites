@@ -1,16 +1,16 @@
-class HNPostItem {
-  bind rank: "span.rank | text";
-  bind title: "span.titleline a | text";
-  bind url: "span.titleline a | attr:href";
-  bind domain: "span.sitestr | text";
-  bind points: "span.score | text";
-  bind author: "a.hnuser | text";
-  bind timeAgo: "span.age | text";
-  bind commentsCount: "a:last-child | text";
+class HNStoryItem {
+    bind rank: "td.title .rank | text";
+    bind title: "td.title .titleline > a | text";
+    bind url: "td.title .titleline > a | attr:href";
+    bind domain: "td.title .titleline .sitestr | text";
+    bind points: "following-sibling::tr/td.subtext .score | text";
+    bind author: "following-sibling::tr/td.subtext a.hnuser | text";
+    bind timeAgo: "following-sibling::tr/td.subtext span.age | text";
+    bind commentsCount: "following-sibling::tr/td.subtext a:last-child | text";
 }
 
 class HNCommentItem {
-  bind author: "a.hnuser | text";
-  bind timeAgo: "span.age | text";
-  bind commentText: "div.comment span.commtext | html";
+    bind author: "a.hnuser | text";
+    bind date: "span.age | text";
+    bind body: "div.comment span.commtext | html";
 }

@@ -1,1 +1,18 @@
-// Navigation styling is managed natively via content.css to preserve all 8 links (new, past, comments, ask, show, jobs, submit, login)
+reconstruct ".hnmain > tbody > tr:first-child" -> UiNavHeader {
+    siteName: "Hacker News";
+    logoUrl: "https://news.ycombinator.com/y18.svg";
+    logoHref: "/";
+    sticky: "true";
+
+    child primaryLinks {
+        selector: "td:nth-child(2) span.pagetop a";
+        bind label: "self | text";
+        bind url: "self | attr:href";
+    }
+
+    child secondaryLinks {
+        selector: "td:last-child span.pagetop a";
+        bind label: "self | text";
+        bind url: "self | attr:href";
+    }
+}

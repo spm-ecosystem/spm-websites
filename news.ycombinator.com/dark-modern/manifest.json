@@ -32,6 +32,34 @@
                 "defaultValue": "input[name='q'] | attr:value",
                 "queryParamName": "q"
             }
+        },
+        {
+            "children": [
+                {
+                    "name": "primaryLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "selector": "td:nth-child(2) span.pagetop a"
+                },
+                {
+                    "name": "secondaryLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "selector": "td:last-child span.pagetop a"
+                }
+            ],
+            "containerSelector": ".hnmain > tbody > tr:first-child",
+            "layoutComponent": "UiNavHeader",
+            "props": {
+                "logoHref": "/",
+                "logoUrl": "https://news.ycombinator.com/y18.svg",
+                "siteName": "Hacker News",
+                "sticky": true
+            }
         }
     ],
     "targetUrl": "*://news.ycombinator.com/*",
