@@ -5,13 +5,7 @@ reconstruct "#hnmain > tbody > tr:first-child > td" -> UiNavHeader {
     sticky: "true";
 
     child primaryLinks {
-        selector: "span.pagetop > a:not([href*='login']):not([href*='logout'])";
-        bind label: "self | text";
-        bind url: "self | attr:href";
-    }
-
-    child secondaryLinks {
-        selector: "td[style*='text-align:right'] a";
+        selector: "span.pagetop a";
         bind label: "self | text";
         bind url: "self | attr:href";
     }

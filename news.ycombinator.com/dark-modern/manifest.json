@@ -65,15 +65,7 @@
                         "label": "self | text",
                         "url": "self | attr:href"
                     },
-                    "selector": "span.pagetop > a:not([href*='login']):not([href*='logout'])"
-                },
-                {
-                    "name": "secondaryLinks",
-                    "propsMap": {
-                        "label": "self | text",
-                        "url": "self | attr:href"
-                    },
-                    "selector": "td[style*='text-align:right'] a"
+                    "selector": "span.pagetop a"
                 }
             ],
             "containerSelector": "#hnmain > tbody > tr:first-child > td",
