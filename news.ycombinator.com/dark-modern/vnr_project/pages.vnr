@@ -1,5 +1,9 @@
 targetUrl: "*://news.ycombinator.com/*";
 
+selector "form:has(input[name='q'])" {
+    action: hide;
+}
+
 reconstruct "table:has(tr.athing)" -> UiTableListPage {
     urlPattern: R"(news\.ycombinator\.com\/(?:$|news|newest|front|ask|show|jobs))";
     pageTitle: "Hacker News — Top Stories";
@@ -22,9 +26,4 @@ reconstruct "table.comment-tree" -> UiCommentListPage {
     child comments extends HNCommentItem {
         selector: "tr.athing.comtr";
     }
-}
-
-reconstruct "form:has(input[name='q'])" -> UiSearchBar {
-    bind defaultValue: "input[name='q'] | attr:value";
-    queryParamName: "q";
 }

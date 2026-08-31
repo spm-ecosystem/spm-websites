@@ -1,5 +1,10 @@
 {
-    "components": [],
+    "components": [
+        {
+            "action": "hide",
+            "selector": "form:has(input[name='q'])"
+        }
+    ],
     "reconstructs": [
         {
             "children": [
@@ -51,17 +56,6 @@
                 "pageTitle": "Discussion Thread"
             },
             "urlPattern": "news\\.ycombinator\\.com\\/item"
-        },
-        {
-            "children": [],
-            "containerSelector": "form:has(input[name='q'])",
-            "layoutComponent": "UiSearchBar",
-            "props": {
-                "queryParamName": "q"
-            },
-            "propsMap": {
-                "defaultValue": "input[name='q'] | attr:value"
-            }
         },
         {
             "children": [
