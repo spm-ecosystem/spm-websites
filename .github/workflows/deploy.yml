@@ -5,18 +5,88 @@ on:
     branches:
       - main
     paths:
-      - '**/*/manifest.json' # Only triggers the pipeline if a manifest is changed
+      - '**/*/manifest.json'
+      - '**/*/vnr_project/**'
+  pull_request:
+    paths:
+      - '**/*/manifest.json'
+      - '**/*/vnr_project/**'
 
 jobs:
-  publish-to-edge:
+  detect-changes:
     runs-on: ubuntu-latest
-    environment: SPM # Pulls the exact secrets from your environment setup!
-    
+    outputs:
+      changed_manifests: ${{ steps.changed-files.outputs.all_changed_files }}
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2 # Required to hunt down modified files
+          fetch-depth: 2
+
+      - name: 🔍 Detect Changed Manifests
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |
+            **/*/manifest.json
+
+  validate:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.any_changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⬇️ Download Pre-compiled spm-cli
+        run: |
+          curl -fsSL -o spm https://raw.githubusercontent.com/spm-ecosystem/spm-cli/release-cli/spm
+          chmod +x spm
+          ./spm help
+
+      - name: 🧪 Recompile Each Changed Theme
+        run: |
+          set -e
+          CHANGED="${{ needs.detect-changes.outputs.changed_manifests }}"
+          FAILED=0
+
+          for manifest in $CHANGED; do
+            theme_dir=$(dirname "$manifest")
+            vnr_dir="$theme_dir/vnr_project"
+
+            echo "::group::Validating $theme_dir"
+
+            if [ ! -d "$vnr_dir" ]; then
+              echo "::error::$theme_dir does not contain vnr_project/ directory — manifest.json cannot be trusted without VNR source code"
+              FAILED=1
+              echo "::endgroup::"
+              continue
+            fi
+
+            if ./spm compile "$vnr_dir" -o "/tmp/check-$(echo "$theme_dir" | tr '/' '_').json"; then
+              echo "✓ $theme_dir compiled cleanly"
+            else
+              echo "::error::$theme_dir failed VNR compilation"
+              FAILED=1
+            fi
+
+            echo "::endgroup::"
+          done
+
+          exit $FAILED
+
+  publish-to-edge:
+    needs: [detect-changes, validate]
+    if: github.event_name == 'push' && needs.detect-changes.outputs.any_changed == 'true'
+    runs-on: ubuntu-latest
+    environment: SPM
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
@@ -31,7 +101,6 @@ jobs:
             **/*/manifest.json
 
       - name: 🚀 Sign and Publish to R2
-        if: steps.changed-files.outputs.any_changed == 'true'
         env:
           SPM_DEV_SECRET: ${{ secrets.SPM_DEV_SECRET }}
           API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
