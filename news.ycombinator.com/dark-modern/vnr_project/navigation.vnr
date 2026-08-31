@@ -1,4 +1,4 @@
-reconstruct ".hnmain > tbody > tr:first-child" -> UiNavHeader {
+reconstruct "#hnmain tr:first-child" -> UiNavHeader {
     siteName: "Hacker News";
     logoUrl: "https://news.ycombinator.com/y18.svg";
     logoHref: "/";

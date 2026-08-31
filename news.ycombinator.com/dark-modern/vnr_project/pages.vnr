@@ -1,6 +1,7 @@
 targetUrl: "*://news.ycombinator.com/*";
 
-reconstruct "table.itemlist" -> UiTableListPage {
+reconstruct "table:has(tr.athing)" -> UiTableListPage {
+    urlPattern: R"(news\.ycombinator\.com\/(?:$|news|newest|front|ask|show|jobs))";
     pageTitle: "Hacker News — Top Stories";
 
     child tableRows extends HNStoryItem {
@@ -15,6 +16,7 @@ reconstruct "table.itemlist" -> UiTableListPage {
 }
 
 reconstruct "table.comment-tree" -> UiCommentListPage {
+    urlPattern: R"(news\.ycombinator\.com\/item)";
     pageTitle: "Discussion Thread";
 
     child comments extends HNCommentItem {
@@ -22,7 +24,7 @@ reconstruct "table.comment-tree" -> UiCommentListPage {
     }
 }
 
-reconstruct "form[action*='search']" -> UiSearchBar {
+reconstruct "form:has(input[name='q'])" -> UiSearchBar {
     bind defaultValue: "input[name='q'] | attr:value";
     queryParamName: "q";
 }

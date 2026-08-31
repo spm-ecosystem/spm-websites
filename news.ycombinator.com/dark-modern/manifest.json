@@ -26,11 +26,12 @@
                     "selector": "a.morelink"
                 }
             ],
-            "containerSelector": "table.itemlist",
+            "containerSelector": "table:has(tr.athing)",
             "layoutComponent": "UiTableListPage",
             "props": {
                 "pageTitle": "Hacker News — Top Stories"
-            }
+            },
+            "urlPattern": "news\\.ycombinator\\.com\\/(?:$|news|newest|front|ask|show|jobs)"
         },
         {
             "children": [
@@ -48,11 +49,12 @@
             "layoutComponent": "UiCommentListPage",
             "props": {
                 "pageTitle": "Discussion Thread"
-            }
+            },
+            "urlPattern": "news\\.ycombinator\\.com\\/item"
         },
         {
             "children": [],
-            "containerSelector": "form[action*='search']",
+            "containerSelector": "form:has(input[name='q'])",
             "layoutComponent": "UiSearchBar",
             "props": {
                 "queryParamName": "q"
@@ -80,7 +82,7 @@
                     "selector": "td:last-child span.pagetop a"
                 }
             ],
-            "containerSelector": ".hnmain > tbody > tr:first-child",
+            "containerSelector": "#hnmain tr:first-child",
             "layoutComponent": "UiNavHeader",
             "props": {
                 "logoHref": "/",
