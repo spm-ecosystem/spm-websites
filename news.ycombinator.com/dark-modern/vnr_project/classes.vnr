@@ -3,10 +3,10 @@ class HNStoryItem {
     bind title: "td.title .titleline > a | text";
     bind url: "td.title .titleline > a | attr:href";
     bind domain: "td.title .titleline .sitestr | text";
-    bind points: "following-sibling::tr/td.subtext .score | text";
-    bind author: "following-sibling::tr/td.subtext a.hnuser | text";
-    bind timeAgo: "following-sibling::tr/td.subtext span.age | text";
-    bind commentsCount: "following-sibling::tr/td.subtext a:last-child | text";
+    bind points: "+ tr td.subtext .score | text";
+    bind author: "+ tr td.subtext a.hnuser | text";
+    bind timeAgo: "+ tr td.subtext span.age | text";
+    bind commentsCount: "+ tr td.subtext a:last-child | text";
 }
 
 class HNCommentItem {

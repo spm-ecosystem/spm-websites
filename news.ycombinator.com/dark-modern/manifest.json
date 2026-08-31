@@ -6,12 +6,12 @@
                 {
                     "name": "tableRows",
                     "propsMap": {
-                        "author": "following-sibling::tr/td.subtext a.hnuser | text",
-                        "commentsCount": "following-sibling::tr/td.subtext a:last-child | text",
+                        "author": "+ tr td.subtext a.hnuser | text",
+                        "commentsCount": "+ tr td.subtext a:last-child | text",
                         "domain": "td.title .titleline .sitestr | text",
-                        "points": "following-sibling::tr/td.subtext .score | text",
+                        "points": "+ tr td.subtext .score | text",
                         "rank": "td.title .rank | text",
-                        "timeAgo": "following-sibling::tr/td.subtext span.age | text",
+                        "timeAgo": "+ tr td.subtext span.age | text",
                         "title": "td.title .titleline > a | text",
                         "url": "td.title .titleline > a | attr:href"
                     },
@@ -54,9 +54,11 @@
             "children": [],
             "containerSelector": "form[action*='search']",
             "layoutComponent": "UiSearchBar",
-            "propsMap": {
-                "defaultValue": "input[name='q'] | attr:value",
+            "props": {
                 "queryParamName": "q"
+            },
+            "propsMap": {
+                "defaultValue": "input[name='q'] | attr:value"
             }
         },
         {
