@@ -5,13 +5,13 @@ reconstruct "tr:first-child > td[bgcolor='#ff6600']" -> UiNavHeader {
     sticky: "true";
 
     child primaryLinks {
-        selector: "span.pagetop > a:not([href*='login']):not([href*='logout'])";
+        selector: "span.pagetop a:not(.hnname a):not([href*='login']):not([href*='logout'])";
         bind label: "self | text";
         bind url: "self | attr:href";
     }
 
     child secondaryLinks {
-        selector: "td[style*='text-align:right'] a";
+        selector: "td[style*='text-align:right'] a, span.pagetop a[href*='login'], span.pagetop a[href*='logout']";
         bind label: "self | text";
         bind url: "self | attr:href";
     }

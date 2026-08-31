@@ -3,27 +3,3 @@ targetUrl: "*://news.ycombinator.com/*";
 selector "form:has(input[name='q'])" {
     action: hide;
 }
-
-reconstruct "table:has(tr.athing)" -> UiTableListPage {
-    urlPattern: R"(news\.ycombinator\.com\/(?:$|news|newest|front|ask|show|jobs))";
-    pageTitle: "Hacker News — Top Stories";
-
-    child tableRows extends HNStoryItem {
-        selector: "tr.athing";
-    }
-
-    child pageLinks {
-        selector: "a.morelink";
-        bind label: "self | text";
-        bind url: "self | attr:href";
-    }
-}
-
-reconstruct "table.comment-tree" -> UiCommentListPage {
-    urlPattern: R"(news\.ycombinator\.com\/item)";
-    pageTitle: "Discussion Thread";
-
-    child comments extends HNCommentItem {
-        selector: "tr.athing.comtr";
-    }
-}
