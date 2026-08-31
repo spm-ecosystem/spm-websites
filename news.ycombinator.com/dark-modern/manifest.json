@@ -76,7 +76,7 @@
                     "selector": "td[style*='text-align:right'] a"
                 }
             ],
-            "containerSelector": "#hnmain > tr:first-child > td",
+            "containerSelector": "tr:first-child > td[bgcolor='#ff6600']",
             "layoutComponent": "UiNavHeader",
             "props": {
                 "logoHref": "/",
