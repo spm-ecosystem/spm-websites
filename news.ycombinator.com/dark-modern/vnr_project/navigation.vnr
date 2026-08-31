@@ -1,17 +1,17 @@
-reconstruct "#hnmain tr:first-child" -> UiNavHeader {
+reconstruct "td[bgcolor='#ff6600']" -> UiNavHeader {
     siteName: "Hacker News";
     logoUrl: "https://news.ycombinator.com/y18.svg";
     logoHref: "/";
     sticky: "true";
 
     child primaryLinks {
-        selector: "td:nth-child(2) span.pagetop a";
+        selector: "span.pagetop > a";
         bind label: "self | text";
         bind url: "self | attr:href";
     }
 
     child secondaryLinks {
-        selector: "td:last-child span.pagetop a";
+        selector: "td[style*='text-align:right'] a";
         bind label: "self | text";
         bind url: "self | attr:href";
     }

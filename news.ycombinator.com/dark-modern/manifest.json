@@ -65,7 +65,7 @@
                         "label": "self | text",
                         "url": "self | attr:href"
                     },
-                    "selector": "td:nth-child(2) span.pagetop a"
+                    "selector": "span.pagetop > a"
                 },
                 {
                     "name": "secondaryLinks",
@@ -73,10 +73,10 @@
                         "label": "self | text",
                         "url": "self | attr:href"
                     },
-                    "selector": "td:last-child span.pagetop a"
+                    "selector": "td[style*='text-align:right'] a"
                 }
             ],
-            "containerSelector": "#hnmain tr:first-child",
+            "containerSelector": "td[bgcolor='#ff6600']",
             "layoutComponent": "UiNavHeader",
             "props": {
                 "logoHref": "/",
