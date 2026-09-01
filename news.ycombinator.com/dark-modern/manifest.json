@@ -2,10 +2,64 @@
     "components": [
         {
             "action": "hide",
+            "selector": "form[action='login']:last-of-type, body:has(form[action='login']) > b, body:has(form[action='login']) > a, body:has(form[action='login']) > br"
+        },
+        {
+            "action": "hide",
             "selector": "form:has(input[name='q'])"
         }
     ],
     "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "fields",
+                    "propsMap": {
+                        "defaultValue": "input, textarea | attr:value",
+                        "id": "input, textarea | attr:name",
+                        "label": "td:first-child | text",
+                        "placeholder": "input, textarea | attr:placeholder",
+                        "type": "input, textarea | attr:type"
+                    },
+                    "selector": "tr:has(input)"
+                }
+            ],
+            "containerSelector": "form[action='login']:first-of-type",
+            "layoutComponent": "UiFormContainer",
+            "props": {
+                "activeTabId": "login",
+                "forgotPasswordUrl": "forgot",
+                "style": "max-width: 480px; margin: 40px auto;",
+                "tabs": "[{id:\"login\",label:\"Fazer Login\",title:\"Login no Hacker News\",subTitle:\"Entre com suas credenciais para continuar\",actionUrl:\"login\",submitLabel:\"Entrar\"},{id:\"register\",label:\"Criar Conta\",title:\"Criar Nova Conta\",subTitle:\"Cadastre seu usuário para enviar histórias e comentar\",actionUrl:\"login\",submitLabel:\"Criar Conta\",hiddenInputs:{creating:\"t\"}}]"
+            },
+            "urlPattern": "news\\.ycombinator\\.com\\/login"
+        },
+        {
+            "children": [
+                {
+                    "name": "fields",
+                    "propsMap": {
+                        "defaultValue": "input, textarea | attr:value",
+                        "id": "input, textarea | attr:name",
+                        "label": "td:first-child | text",
+                        "placeholder": "input, textarea | attr:placeholder",
+                        "type": "input, textarea | attr:type"
+                    },
+                    "selector": "tr:has(input), tr:has(textarea)"
+                }
+            ],
+            "containerSelector": "form[action='r']",
+            "layoutComponent": "UiFormContainer",
+            "props": {
+                "actionUrl": "r",
+                "method": "post",
+                "style": "max-width: 600px; margin: 40px auto;",
+                "subTitle": "Insira uma URL para compartilhar um link ou preencha o texto para Ask/Show HN",
+                "submitLabel": "Publicar História",
+                "title": "Enviar História para o Hacker News"
+            },
+            "urlPattern": "news\\.ycombinator\\.com\\/submit"
+        },
         {
             "children": [
                 {
@@ -25,10 +79,9 @@
                     "selector": "td[style*='text-align:right'] a, span.pagetop a[href*='login'], span.pagetop a[href*='logout']"
                 }
             ],
-            "containerSelector": "tr:first-child > td[bgcolor='#ff6600']",
+            "containerSelector": ".hnmain tr:first-child > td",
             "layoutComponent": "UiNavHeader",
             "props": {
-                "extraHtml": "<span style='background: rgba(255, 102, 0, 0.15); color: #ff6600; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(255, 102, 0, 0.3); letter-spacing: 0.5px; margin-left: 8px;'>DARK MODERN</span>",
                 "logoHref": "/",
                 "logoUrl": "https://news.ycombinator.com/y18.svg",
                 "siteName": "Hacker News",

@@ -14,3 +14,11 @@ class HNCommentItem {
     bind date: "span.age | text";
     bind body: "div.comment span.commtext | html";
 }
+
+class HNFormFieldItem {
+    bind id: "input, textarea | attr:name";
+    bind label: "td:first-child | text";
+    bind type: "input, textarea | attr:type";
+    bind placeholder: "input, textarea | attr:placeholder";
+    bind defaultValue: "input, textarea | attr:value";
+}

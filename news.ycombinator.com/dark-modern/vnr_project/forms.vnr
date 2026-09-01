@@ -1,0 +1,50 @@
+reconstruct "form[action='login']:first-of-type" -> UiFormContainer {
+    urlPattern: R"(news\.ycombinator\.com\/login)";
+    activeTabId: "login";
+    forgotPasswordUrl: "forgot";
+    style: "max-width: 480px; margin: 40px auto;";
+
+    tabs: [
+        {
+            id: "login",
+            label: "Fazer Login",
+            title: "Login no Hacker News",
+            subTitle: "Entre com suas credenciais para continuar",
+            actionUrl: "login",
+            submitLabel: "Entrar"
+        },
+        {
+            id: "register",
+            label: "Criar Conta",
+            title: "Criar Nova Conta",
+            subTitle: "Cadastre seu usuário para enviar histórias e comentar",
+            actionUrl: "login",
+            submitLabel: "Criar Conta",
+            hiddenInputs: {
+                creating: "t"
+            }
+        }
+    ];
+
+    child fields extends HNFormFieldItem {
+        selector: "tr:has(input)";
+    }
+}
+
+selector "form[action='login']:last-of-type, body:has(form[action='login']) > b, body:has(form[action='login']) > a, body:has(form[action='login']) > br" {
+    action: hide;
+}
+
+reconstruct "form[action='r']" -> UiFormContainer {
+    urlPattern: R"(news\.ycombinator\.com\/submit)";
+    title: "Enviar História para o Hacker News";
+    subTitle: "Insira uma URL para compartilhar um link ou preencha o texto para Ask/Show HN";
+    actionUrl: "r";
+    method: "post";
+    submitLabel: "Publicar História";
+    style: "max-width: 600px; margin: 40px auto;";
+
+    child fields extends HNFormFieldItem {
+        selector: "tr:has(input), tr:has(textarea)";
+    }
+}
