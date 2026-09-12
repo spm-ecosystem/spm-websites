@@ -10,7 +10,7 @@ reconstruct "#gallery" -> UiGridPage {
     urlPattern: R"(example-site\.com\/gallery(?:\/index\.html)?$)";
 
     // Reutilizando mapeamentos via herança de classe
-    child items extends class.TagBadge {
+    child items extends TagBadge {
         selector: "#gallery-view .item";
         scope: container;
         bind category: "self | attr:class"; // Extensão local

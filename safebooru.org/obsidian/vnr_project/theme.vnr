@@ -10,8 +10,9 @@ theme "Obsidian" {
         --spm-accent-fg: "#ffffff";
         --spm-border: "#333333";
         --spm-radius: "10px";
-    }
-    customStyles {
-        "#notice, #long-notice, #has-mail-notice, #safe-image-notice { display: none !important; }"
+        --spm-card-radius: "8px";
+        --spm-nav-padding: "10px 16px";
+        --spm-container-max-width: "100%";
+        --spm-form-padding: "24px";
     }
 }

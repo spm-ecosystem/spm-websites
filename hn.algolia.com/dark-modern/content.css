@@ -298,3 +298,13 @@ html, body, #root, main, main > div, .SearchResults, .experimental, .experimenta
 .Footer, .Pagination, [class*="Pagination"], [class*="Footer"], hr {
   display: none !important;
 }
+
+/* Migrated from customStyles */
+body {
+  background-color: #09090b !important;
+  color: #f4f4f5 !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  margin: 0;
+  padding: 0;
+}
+

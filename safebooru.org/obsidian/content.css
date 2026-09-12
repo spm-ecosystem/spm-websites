@@ -14,3 +14,9 @@
   --spm-border: #333333;
   --spm-radius: 10px;
 }
+
+/* Migrated from customStyles */
+#notice, #long-notice, #has-mail-notice, #safe-image-notice {
+  display: none !important;
+}
+
