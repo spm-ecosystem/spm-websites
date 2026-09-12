@@ -2,7 +2,7 @@
     "components": [
         {
             "action": "hide",
-            "selector": "form[action*='login']:last-of-type, body:has(form[action*='login']) > b, body:has(form[action*='login']) > a, body:has(form[action*='login']) > br"
+            "selector": "form:has(input[name='creating']), body:has(input[name='pw']) > b, body:has(input[name='pw']) > a, body:has(input[name='pw']) > br"
         },
         {
             "action": "hide",
@@ -24,7 +24,7 @@
                     "selector": "tr:has(input)"
                 }
             ],
-            "containerSelector": "form[action*='login']:first-of-type",
+            "containerSelector": "form:has(input[name='pw']):first-of-type",
             "layoutComponent": "UiFormContainer",
             "props": {
                 "activeTabId": "login",
@@ -48,7 +48,7 @@
                     "selector": "tr:has(input), tr:has(textarea)"
                 }
             ],
-            "containerSelector": "form[action='r']",
+            "containerSelector": "form[action='r'], form:has(input[name='title'])",
             "layoutComponent": "UiFormContainer",
             "props": {
                 "actionUrl": "r",
