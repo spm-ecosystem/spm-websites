@@ -81,13 +81,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Download Pre-compiled spm-cli Binary
         run: |
           curl -fsSL -o spm https://raw.githubusercontent.com/spm-ecosystem/spm-cli/release-cli/spm
           chmod +x spm
           ./spm help
 
-      - name: Recompile Changed Themes
+      - name: Recompile and Validate Changed Themes
         run: |
           set -e
           CHANGED="${{ needs.detect-changes.outputs.changed_manifests }}"
@@ -112,6 +117,15 @@ jobs:
             else
               echo "::error::$theme_dir failed VNR compilation"
               FAILED=1
+            fi
+
+            if [ -f "$theme_dir/content.css" ]; then
+              if node .github/scripts/validate-css.js "$theme_dir/content.css"; then
+                echo "✓ $theme_dir/content.css validated cleanly"
+              else
+                echo "::error::$theme_dir/content.css failed CSS validation"
+                FAILED=1
+              fi
             fi
 
             echo "::endgroup::"
