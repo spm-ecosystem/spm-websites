@@ -2,7 +2,7 @@
     "components": [
         {
             "action": "hide",
-            "selector": "form[action='login']:last-of-type, body:has(form[action='login']) > b, body:has(form[action='login']) > a, body:has(form[action='login']) > br"
+            "selector": "form[action*='login']:last-of-type, body:has(form[action*='login']) > b, body:has(form[action*='login']) > a, body:has(form[action*='login']) > br"
         },
         {
             "action": "hide",
@@ -24,7 +24,7 @@
                     "selector": "tr:has(input)"
                 }
             ],
-            "containerSelector": "form[action='login']:first-of-type",
+            "containerSelector": "form[action*='login']:first-of-type",
             "layoutComponent": "UiFormContainer",
             "props": {
                 "activeTabId": "login",

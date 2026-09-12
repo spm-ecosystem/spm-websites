@@ -1,4 +1,4 @@
-reconstruct "form[action='login']:first-of-type" -> UiFormContainer {
+reconstruct "form[action*='login']:first-of-type" -> UiFormContainer {
     urlPattern: R"(news\.ycombinator\.com\/login)";
     activeTabId: "login";
     forgotPasswordUrl: "forgot";
@@ -31,7 +31,7 @@ reconstruct "form[action='login']:first-of-type" -> UiFormContainer {
     }
 }
 
-selector "form[action='login']:last-of-type, body:has(form[action='login']) > b, body:has(form[action='login']) > a, body:has(form[action='login']) > br" {
+selector "form[action*='login']:last-of-type, body:has(form[action*='login']) > b, body:has(form[action*='login']) > a, body:has(form[action*='login']) > br" {
     action: hide;
 }
 
